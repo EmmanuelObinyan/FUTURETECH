@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+@theme{
+  --breakpoint-xs:360px;
+  --shadow-dark:0px 0px 7px black;
+  --font-sans:Kumbh+sans,arial;
+  --font-inter:Inter,sans-serif;
+  --text-ss:0.7rem;
+}
+
+*{
+  /* outline: 1px solid red; */
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+body{
+   background-color: #1E1E1E;
+}
+/* styling the jodit placeholder */
+
+@media screen and (min-width:1024px){
+  .jodit-placeholder{
+  font-size: 1rem !important;
+}
+}
+@media screen and (max-width:1023px) and (min-width:768px){
+  .jodit-placeholder{
+  font-size: 0.85rem !important;
+}
+}
+@media screen and (max-width:767px) and (min-width:640px){
+  .jodit-placeholder{
+  font-size: 0.8rem !important;
+}
+}
+@media screen and (max-width:639px) and (min-width:360px){
+  .jodit-placeholder{
+  font-size: 0.75rem !important;
+}
+}
