@@ -38,3 +38,12 @@ body{
   font-size: 0.75rem !important;
 }
 }
+/* swiper => navigation */
+.swiper-button-next,.swiper-button-prev{
+  height:1rem !important;
+  color: yellow !important;
+}
+/* swiper => pagination */
+.swiper-pagination-bullet-active{
+  background-color: yellow !important;
+}

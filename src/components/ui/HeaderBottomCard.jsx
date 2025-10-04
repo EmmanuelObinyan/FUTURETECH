@@ -5,7 +5,7 @@ import latesticon from '../../assets/latesticon.png'
 import globalicon from '../../assets/globalicon.png'
 const HeaderBottomCard = ({headtext,text,title,subtext,expert=false,latest=false,global=false}) => {
   return (
-    <div className='text-white capitalize font-inter flex p-3 justify-evenly  items-center xs:w-[22.5rem] sm:w-[30rem] md:w-[24rem] lg:w-[30rem]   border-1 border-[#1E1E1E]'>
+    <div className='text-white capitalize font-inter flex p-3 justify-evenly  items-center xs:w-[22.5rem] sm:w-[95%] md:w-[24rem] lg:w-[30rem]   border-1 border-[#1E1E1E]'>
        <aside>
    { 
      latest &&

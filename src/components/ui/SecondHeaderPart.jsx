@@ -6,7 +6,7 @@ const SecondHeaderPart = () => {
   return (
     <div className='text-white  capitalize  w-full border-l-1 border-[#1E1E1E] xs:mx-auto md:mx-0'>
         <img src={abstractdesign}
-         className='xs:h-[15rem] sm:h-[20rem] md:h-[17rem] lg:h-[25rem] '
+         className='opacity-30 xs:h-[15rem] sm:h-[20rem] md:h-[17rem] lg:h-[25rem] '
         alt="" />
         <aside className='xs:ml-7 sm:ml-8 md:ml-9 lg:ml-12 xs:-mt-[13%] sm:-mt-[12%] md:-mt-[10%] w-[fit-content]'>
             {/* for the stacked pic */}

@@ -8,6 +8,7 @@ const Button = ({ BtnText, handleSubmit,disable, googleShow = false, display }) 
       {googleShow ? (
         <div
           className={`mx-auto 
+             cursor-pointer
             ${disable ? "pointer-events-none opacity-70" : ""}
     xs:w-[45%]     
     sm:w-[50%] 
@@ -36,6 +37,7 @@ const Button = ({ BtnText, handleSubmit,disable, googleShow = false, display }) 
             display ? "hidden" : ""
           } mx-auto 
           w-[55%] 
+          cursor-pointer
           capitalize 
           text-center 
           flex 

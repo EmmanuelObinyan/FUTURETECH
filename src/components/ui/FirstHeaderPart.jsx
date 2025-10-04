@@ -14,7 +14,7 @@ const FirstHeaderPart = () => {
       <p className="text-gray-400 xs:text-ss sm:text-xs lg:text-sm p-1.5 md:w-[90%] lg:w-[80%] font-light">
         Welcome to the epicenter of AI innovation. FutureTech AI News is your
         passport to a world where machines think, learn, and reshape the future.
-        <p className="xs:hidden sm:block">Join us on this visionary expedition into the heart of AI.</p>
+        <span className="xs:hidden sm:block">Join us on this visionary expedition into the heart of AI.</span>
       </p>
     </div>
       {/* second row container */}
