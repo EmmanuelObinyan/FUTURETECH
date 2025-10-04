@@ -9,6 +9,7 @@ import NewsPage from "./pages/NewsPage";
 import BlogPage from "./pages/BlogPage";
 import ResourcesPage from "./pages/ResourcesPage";
 import Signup from "./pages/Signup";
+import BlogPost from "./pages/BlogPost";
 import { Toaster } from "sonner";
 import Login from "./pages/Login";
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
     <div>
       <Toaster richColors position="top-right" />
       <Routes>
+        <Route path="/blogpost/:id" element={<BlogPost/>} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/resources" element={<ResourcesPage />} />
         <Route path="/settings" element={<SettingsPage />} />

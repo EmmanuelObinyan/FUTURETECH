@@ -27,7 +27,7 @@ const Headers = () => {
         global={true}
         headtext="global readership"
         text="worldwide impact"
-        subtext="2 million monthly readers"
+        subtext="2 million monthly readers around the globe"
       />
       </div>
     </header>

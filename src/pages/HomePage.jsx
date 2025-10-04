@@ -3,6 +3,8 @@ import NavBar from '../components/layouts/NavBar'
 import LoaderComp from '../components/ui/LoaderComp'
 import { useAuth } from '../config/AuthContext'
 import Headers from '../components/layouts/Headers'
+import Main from '../components/layouts/Main'
+import Footer from '../components/layouts/Footer'
 const HomePage = () => {
   const{loading}=useAuth()
   return (
@@ -11,6 +13,8 @@ const HomePage = () => {
         <NavBar/>
      <section className='xs:mt-42 lg:mt-37'>
         <Headers/>
+        <Main/>
+        <Footer/>
       </section>    
     </>
   )
