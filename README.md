@@ -1,4 +1,4 @@
-  Blog web applkication
+  Blog web application
 
   npm install to download dependencies
   npm run dev to run the application
