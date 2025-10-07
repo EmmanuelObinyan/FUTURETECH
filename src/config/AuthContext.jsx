@@ -69,7 +69,7 @@ const handleLogout=()=>{
           backgroundColor: "#1A1A1A",
           color: "#ff4d4f",
         },
-        
+        duration:5000,
       });
     }
     if (user.password.trim() === "") {
@@ -198,7 +198,7 @@ const handleSignup=async()=>{
           backgroundColor: "#1A1A1A",
           color: "#ff4d4f",
         },
-        duration: 3000,
+        duration: 5000,
       });
    }
    else if(!email_regex.test(user.email.trim())){
@@ -208,7 +208,7 @@ const handleSignup=async()=>{
           backgroundColor: "#1A1A1A",
           color: "#ff4d4f",
         },
-        duration: 3000,
+        duration: 5000,
       });
    }
    if(user.password.trim() === ""){
@@ -218,7 +218,6 @@ const handleSignup=async()=>{
           backgroundColor: "#1A1A1A",
           color: "#ff4d4f",
         },
-        duration: 3000,
       });
    }
   else if(user.password.length < 8){
@@ -228,7 +227,6 @@ const handleSignup=async()=>{
           backgroundColor: "#1A1A1A",
           color: "#ff4d4f",
         },
-        duration: 3000,
       });
   } 
 //   to validate the sign in

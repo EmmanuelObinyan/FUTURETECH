@@ -11,7 +11,7 @@ const HomePage = () => {
     <>
       {loading ? <LoaderComp/>:""}
         <NavBar/>
-     <section className='xs:mt-42 lg:mt-37'>
+     <section className='xs:mt-26 sm:mt-32 lg:mt-37'>
         <Headers/>
         <Main/>
         <Footer/>

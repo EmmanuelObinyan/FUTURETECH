@@ -22,7 +22,7 @@ const FooterPart = () => {
               </p>
         </aside>
     </div>
-         <section className='bg-[#141414] gap-3 h-fit p-3.5 w-fit rounded-lg flex xs:flex-col sm:flex-row'>
+         <section className='bg-[#141414] gap-3 h-fit p-3.5 w-fit rounded-lg flex xs:flex-col md:flex-row'>
              <FooterCard
               title="resources"
               text="Visitors can access a wide range of resources, 

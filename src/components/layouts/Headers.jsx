@@ -1,12 +1,17 @@
-import React from "react";
+import React ,{useEffect} from "react";
+import Aos from "aos";
+import "aos/dist/aos.css"
 import FirstHeaderPart from "../ui/FirstHeaderPart";
 import SecondHeaderPart from "../ui/SecondHeaderPart";
 import HeaderBottomCard from "../ui/HeaderBottomCard";
 
 const Headers = () => {
+   useEffect(()=>{
+      Aos.init()
+   },[])
   return (
     <header className="bg-[#141414] ">
-      <div className="flex font-inter h-fit  xs:flex-col md:flex-row">
+      <div className="flex font-inter h-fit  xs:flex-col md:flex-row" data-aos-duration="1000" data-aos="fade-right">
         <FirstHeaderPart />
         <SecondHeaderPart />
       </div>

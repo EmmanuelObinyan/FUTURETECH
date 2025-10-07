@@ -1,10 +1,15 @@
-import React from 'react'
+import React ,{useEffect} from 'react'
 import abstractdesign from '../../assets/abstractdesign.png'
 import AppButton from './AppButton'
+import Aos from "aos";
+import "aos/dist/aos.css"
 import ProfilePic from '../pictures/ProfilePic'
 const SecondHeaderPart = () => {
+   useEffect(()=>{
+        Aos.init()
+   },[])
   return (
-    <div className='text-white  capitalize  w-full border-l-1 border-[#1E1E1E] xs:mx-auto md:mx-0'>
+    <div className='text-white  capitalize  w-full border-l-1 border-[#1E1E1E] xs:mx-auto md:mx-0' data-aos="zoom in" data-aos-delay="800" data-aos-duration="1000">
         <img src={abstractdesign}
          className='opacity-30 xs:h-[15rem] sm:h-[20rem] md:h-[17rem] lg:h-[25rem] '
         alt="" />
