@@ -6,6 +6,7 @@ export const AppProvider=({children})=>{
       <TabProvider>
      <AuthProvider>
        {children}
+       {/* for the app provider */}
      </AuthProvider>
      </TabProvider>
     )
