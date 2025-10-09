@@ -138,7 +138,7 @@ const handleLogout=()=>{
             
           });
         } else if (error.code === "auth/network-request-failed") {
-          toast.error("Connection error,try again later", {
+          toast.error("no internet,check your connection", {
             style: {
               backgroundColor: "#1A1A1A",
               color: "#ff4d4f",
@@ -268,7 +268,7 @@ const handleSignup=async()=>{
       });
            }
            else if(error.code === "auth/network-request-failed"){
-        toast.error("Connection error, try again later ", {
+        toast.error("no internet, check your connection ", {
         style: {
           backgroundColor: "#1A1A1A",
           color: "#ff4d4f",

@@ -53,7 +53,9 @@ const TabLayout = ({blog}) => {
                 <CommentBtn
                  commentCount={item.comment}
                 />
-                <ShareBtn/>
+                <ShareBtn
+                 shareCount={item.shares}
+                />
               </div>
         </aside>
         <AppButton

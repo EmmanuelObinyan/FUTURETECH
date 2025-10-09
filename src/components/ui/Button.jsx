@@ -13,6 +13,10 @@ const Button = ({ BtnText, handleSubmit,disable, googleShow = false, display }) 
     xs:w-[45%]     
     sm:w-[50%] 
     md:w-[55%]
+    mt-5
+     xs:text-xs
+      sm:text-sm
+       md:text-md
    capitalize
     text-center 
     flex 
@@ -22,7 +26,7 @@ const Button = ({ BtnText, handleSubmit,disable, googleShow = false, display }) 
     justify-center
      border-0
      bg-blue-700!
-    h-11 
+    h-10 
     duration-200
  transition-all 
  ease-in-out 
@@ -35,7 +39,8 @@ const Button = ({ BtnText, handleSubmit,disable, googleShow = false, display }) 
         <div
           className={` ${
             display ? "hidden" : ""
-          } mx-auto 
+          } 
+          mx-auto 
           w-[55%] 
           cursor-pointer
           capitalize 

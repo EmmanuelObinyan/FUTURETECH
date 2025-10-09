@@ -29,7 +29,7 @@ const NavBar = () => {
     <nav className="flex z-40 text-white flex-col w-full font-inter capitalize fixed top-0">
       {/* for marquee container */}
       <div className="py-4 mt-1 bg-[#141414]">
-        <Marquee pauseOnClick pauseOnHover className="opacity-70">
+        <Marquee pauseOnClick pauseOnHover className="opacity-70"  speed={40}> 
           <p className="xs:mx-8 sm:mx-auto items-center flex w-fit xs:text-ss sm:text-xs md:text-sm lg:text-md">
             subscribe to our newsletter for new & latest blogs and resources
             <span>
@@ -40,8 +40,8 @@ const NavBar = () => {
       </div>
       {/* for the navigation bar */}
       <div
-        className={`flex  ${
-          isMobile ? "justify-between" : "justify-around"
+        className={`flex border-b-1 border-[#1a1a1a] ${
+          isMobile ? "justify-between p-2" : "justify-around"
         } sm:py-0 md:py-4 items-center bg-[#1E1E1E]`}
       >
         {/* the logo image */}
@@ -98,14 +98,26 @@ const NavBar = () => {
         {/* for the mobile breakpoint */}
         {isMobile ? (
           <div className="">
-            <BiMenuAltRight className={` xs:text-[2.4rem] mr-3 relative`} onClick={()=>setShow(true)} />
-            <ul className={` bg-black/35  backdrop-blur-sm h-[40rem] absolute inset-0 w-full transition-all ease-in-out ${show ? "translate-y-0":"-translate-y-200"} duration-500 flex justify-center items-center flex-col`}>
-                 <FaX className="absolute top-4 right-4  xs:text-[1.6rem] sm:text-[1.6rem]" onClick={()=>setShow(false)}/>
-             { navs.map((item,index)=>(
+            <BiMenuAltRight
+              className={` xs:text-[2.4rem] mr-3 relative`}
+              onClick={() => setShow(true)}
+            />
+            <ul
+              className={` bg-black/70  backdrop-blur-sm h-[100vh] absolute inset-0 w-full transition-all ease-in-out ${
+                show ? "translate-y-0" : "-translate-y-200"
+              } duration-500 flex justify-center items-center flex-col`}
+            >
+              <FaX
+                className="absolute top-4 right-4  xs:text-[1.6rem] sm:text-[1.6rem]"
+                onClick={() => setShow(false)}
+              />
+              {navs.map((item, index) => (
                 <Link key={index} to={item.link}>
-                <li className="mt-3  capitalize xs:text-lg sm:text-lg font-semibold text-center xs:w-[20rem] sm:w-[30rem] duration-200 transition-all ease active:bg-[#1a1a1a] p-2 rounded-lg ">{item.name}</li>
-              </Link>
-                    ))}
+                  <li className="mt-3  capitalize xs:text-lg sm:text-lg font-semibold text-center  duration-200 transition-all ease active:text-yellow-400 p-2 rounded-lg ">
+                    {item.name}
+                  </li>
+                </Link>
+              ))}
             </ul>
           </div>
         ) : (

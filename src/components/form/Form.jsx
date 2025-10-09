@@ -10,6 +10,7 @@ import PersonalInfoField from "./PersonalInfoField";
 import BlogField from "./BlogField";
 const Form = ({
   ShowText,
+  showPassword=true,
   User,
   InputField = true,
   forgotten = false,
@@ -105,6 +106,10 @@ const Form = ({
               />
             </div>
             {/* for the password */}
+           
+           {
+             showPassword ?
+          ( <>
             <label
               className="xs:ml-1 sm:ml-3 md:ml-4 lg:ml-7 block capitalize mt-4 mb-2 xs:text-sm  lg:text-md"
               htmlFor=""
@@ -120,9 +125,12 @@ const Form = ({
                 onChange={handleChange}
                 name="password"
                 value={User.password}
-                className="pl-10 pr-3 py-2 mt-2 h-10 xs:w-[100%] sm:w-[95%] md:w-[90%] border-1 border-gray-700/20  placeholder:capitalize  xs:text-xs lg:text-sm font-light"
+                className="pl-10 pr-3 py-2 mt-2 h-10  xs:w-[100%] sm:w-[95%] md:w-[90%] border-1 border-gray-700/20  placeholder:capitalize  xs:text-xs lg:text-sm font-light"
               />
             </div>
+               </> )
+               :""
+                }
 
             {/* for the forgotten password */}
             {passwordLinks ? (
