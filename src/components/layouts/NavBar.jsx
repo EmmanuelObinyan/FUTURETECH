@@ -5,6 +5,9 @@ import { BsArrowUpRight } from "react-icons/bs";
 import { useMediaQuery } from "react-responsive";
 import { BiMenuAltRight } from "react-icons/bi";
 import { FaX } from "react-icons/fa6";
+import { useObserver } from "../../config/ObserverContext";
+import Aos from "aos";
+import "aos/dist/aos.css";
 import Marquee from "react-fast-marquee";
 import logoimg from "../../assets/desktoplogo.png";
 const NavBar = () => {
@@ -25,6 +28,10 @@ const NavBar = () => {
     { name: "profile", link: "/profile" },
     { name: "settings", link: "/settings" },
   ];
+  useEffect(() => {
+    Aos.init();
+  }, []);
+  const { visible, observerRef } = useObserver();
   return (
     <nav className="flex z-40 text-white flex-col w-full font-inter capitalize fixed top-0">
       {/* for marquee container */}
@@ -69,7 +76,7 @@ const NavBar = () => {
             <Link to={"/podcasts"}>
               <li className="p-2 rounded-md duration-200 transition-all ease active:bg-[#141414]">
                 podcasts
-              </li>
+              </li> 
             </Link>
             {/* resources */}
             <Link to={"/resources"}>
@@ -104,7 +111,7 @@ const NavBar = () => {
             />
             <ul
               className={` bg-black/70  backdrop-blur-sm h-[100vh] absolute inset-0 w-full transition-all ease-in-out ${
-                show ? "translate-y-0" : "-translate-y-200"
+                show ? "translate-y-0" : "-translate-y-300"
               } duration-500 flex justify-center items-center flex-col`}
             >
               <FaX
@@ -112,8 +119,8 @@ const NavBar = () => {
                 onClick={() => setShow(false)}
               />
               {navs.map((item, index) => (
-                <Link key={index} to={item.link}>
-                  <li className="mt-3  capitalize xs:text-lg sm:text-lg font-semibold text-center  duration-200 transition-all ease active:text-yellow-400 p-2 rounded-lg ">
+                <Link key={index} to={item.link} >
+                  <li className="mt-3  capitalize xs:text-lg sm:text-lg font-semibold text-center  duration-200 transition-all ease active:text-yellow-400 p-2 rounded-lg " >
                     {item.name}
                   </li>
                 </Link>

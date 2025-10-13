@@ -6,11 +6,17 @@ import ProfileComp from "../pictures/ProfileComp";
 import picture from "../../assets/picture.png";
 import picture2 from "../../assets/picture2.png";
 import ebookicon from "../../assets/ebookicon.png";
+import { useObserver } from "../../config/ObserverContext";
 import papericon from "../../assets/newspapericon.png";
 
 const PreviewComp = ({ itemShow = true }) => {
+  const { observerRef, visible } = useObserver();
   return (
-    <div className="font-inter flex text-white capitalize bg-[#141414] w-full h-fit xs:flex-col md:flex-row">
+    <div
+      className="font-inter flex text-white capitalize bg-[#141414] w-full h-fit xs:flex-col md:flex-row"
+      ref={observerRef}
+      data-aos={visible ? "fade-down" : "fade-up"}
+    >
       {itemShow ? (
         <>
           <section className="xs:w-[95%] md:w-[45%] flex flex-col justify-center pl-5 py-4">
@@ -65,7 +71,12 @@ const PreviewComp = ({ itemShow = true }) => {
         </>
       ) : (
         <>
-          <section className="xs:w-[95%] md:w-[45%] flex flex-col justify-center pl-5 py-4">
+          <section
+            className="xs:w-[95%] md:w-[45%] flex flex-col justify-center pl-5 py-4"
+            ref={observerRef}
+            data-aos={visible ? "fade-down" : "fade-up"}
+            data-aos-duration={800}
+          >
             <img
               src={papericon}
               alt=""

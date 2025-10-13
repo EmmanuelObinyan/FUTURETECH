@@ -6,10 +6,12 @@ import PreviewComp from "../ui/PreviewComp";
 import TabCard from "../ui/TabCard";
 import TabLayout from "../ui/TabLayout";
 import { useTab } from "../../config/TabContext";
+import { useObserver } from "../../config/ObserverContext";
 import TestimonialComp from "../ui/TestimonialComp";
 import FooterPart from "../ui/FooterPart";
 const Main = () => {
   const navigate = useNavigate();
+  const { visible, observerRef } = useObserver();
   const { BlogArr } = useTab();
   const ButtonTabs = [
     "all",
@@ -45,7 +47,10 @@ const Main = () => {
         width={true}
       />
       {/* for the tabs selection */}
-      <section className="p-2 h-fit font-inter  text-white bg-[#141414] w-[100%] ">
+      <section className="p-2 h-fit font-inter  text-white bg-[#141414] w-[100%] " ref={observerRef}
+      data-aos={visible ? "fade-down" : "fade-up"}
+       data-aos-easing="ease-in-out"
+      data-aos-duration="2000">
         <TabCard TabsItems={ButtonTabs} />
         <TabLayout blog={BlogArr} />
       </section>
@@ -71,7 +76,6 @@ const Main = () => {
 {/* testimonial */}
     <TestimonialComp/>
      <FooterPart/>
-        
      
     </div>
   );

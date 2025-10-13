@@ -19,7 +19,7 @@ const NewsCard = ({ news_image,news_title, category, likeCount, shareCount }) =>
         </p>
       </section>
       <figure className="md:w-[fit] lg:w-[26rem] flex xs:flex-row sm:flex-col lg:flex-row  justify-between xs:items-center sm:items-start lg:items-center xs:px-2.5 sm:px-0">
-        <aside className="xs:w-[8rem] sm:w-[10.5rem]  lg:w-[8.5rem] justify-between flex sm:py-2 md:py-3 lg:py-0">
+        <aside className="xs:w-[8rem] sm:w-[10.5rem]  lg:w-[8.5rem] justify-between xs:mr-7 sm:mr-0 flex sm:py-2 md:py-3 lg:py-0">
           <LikeBtn Like={false} likeCount={likeCount} />
           <ShareBtn shareCount={shareCount} />
         </aside>

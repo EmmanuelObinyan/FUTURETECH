@@ -2,15 +2,22 @@ import React from "react";
 import futureicon from "../../assets/futureicon.png";
 import researchicon from "../../assets/researchicon.png";
 import SectionCard from "./SectionCard";
+import { useObserver } from "../../config/ObserverContext";
 const Main_Firstsection = ({
   first_card = true,
   photoicon = true,
   title,
   text,
 }) => {
+  const { visible, observerRef } = useObserver();
   return (
     <>
-      <section className="bg-[#141414] font-inter capitalize text-white border-1 border-[#1E1E1E] flex justify-around h-[fit] xs:flex-col md:flex-row ">
+      <section
+        className="bg-[#141414] font-inter capitalize text-white border-1 border-[#1E1E1E] flex justify-around h-[fit] xs:flex-col md:flex-row "
+        ref={observerRef}
+        data-aos={visible ? "fade-up" : "fade-down"}
+        data-aos-duration="2000"
+      >
         <div className=" border-[#1e1e1e] md:w-[45%] lg:w-[50%] flex flex-col justify-center items-center xs:pl-3 md:pl-0 xs:border-b-1 md:border-r-1 ">
           <aside className="w-fit">
             <img

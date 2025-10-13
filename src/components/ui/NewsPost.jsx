@@ -2,6 +2,7 @@ import React from "react";
 import Aos from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
+import { useObserver } from "../../config/ObserverContext";
 import LikeBtn from "./LikeBtn";
 import ShareBtn from "./ShareBtn";
 import pic from '../../assets/newsimg.png'
@@ -10,10 +11,12 @@ const NewsPost = () => {
   useEffect(() => {
     Aos.init();
   }, []);
+  const { visible, observerRef } = useObserver();
   return (
     <div
+      ref={observerRef}
       className="text-white font-semibold font-inter capitalize h-fit md:h-[20rem] p-2 bg-[#141414] border-b-1 border-[#1e1e1e] flex justify-center items-center flex-col  md:flex-row"
-      data-aos="zoom-in"
+      data-aos={visible ? "zoom-in" : "zoom-out"}
       data-aos-duration="1000"
       data-aos-delay="800"
       data-aos-easing="ease-out"

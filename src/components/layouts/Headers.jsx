@@ -4,14 +4,15 @@ import "aos/dist/aos.css"
 import FirstHeaderPart from "../ui/FirstHeaderPart";
 import SecondHeaderPart from "../ui/SecondHeaderPart";
 import HeaderBottomCard from "../ui/HeaderBottomCard";
-
+import { useObserver } from "../../config/ObserverContext";
 const Headers = () => {
    useEffect(()=>{
       Aos.init()
    },[])
+   const { visible, observerRef } = useObserver();
   return (
     <header className="bg-[#141414] ">
-      <div className="flex font-inter h-fit  xs:flex-col md:flex-row" data-aos-duration="1000" data-aos="fade-right">
+      <div className="flex font-inter h-fit  xs:flex-col md:flex-row" ref={observerRef} data-aos-duration="1000" data-aos={visible?"fade-right":"fade-left"} >
         <FirstHeaderPart />
         <SecondHeaderPart />
       </div>

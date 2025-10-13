@@ -1,15 +1,18 @@
 import React from "react";
 import Aos from "aos";
 import "aos/dist/aos.css";
+import { useObserver } from "../../config/ObserverContext";
 import { useEffect } from "react";
 const TextHeader = ({ news_header, news_text }) => {
+  const{visible,observerRef}=useObserver()
   useEffect(() => {
     Aos.init();
   }, []);
   return (
     <div
+       ref={observerRef}
       className="bg-[#141414] capitalize md:justify-center h-fit md:h-[13rem] lg:h-[15rem] p-5 md:items-end flex xs:flex-col md:flex-row text-white font-inter border-b-1 border-[#1e1e1e]"
-      data-aos="fade-right"
+      data-aos={visible ? "fade-up":"fade-down"}
       data-aos-easing="ease-in-out"
       data-aos-duration="1000"
     >
