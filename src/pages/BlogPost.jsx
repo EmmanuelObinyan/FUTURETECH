@@ -9,7 +9,6 @@ import NewsCard from "../components/ui/NewsCard";
 import { useObserver } from "../config/ObserverContext";
 import Aos from "aos";
 import "aos/dist/aos.css";
-import MainSectionComp from "../components/ui/MainSectionComp";
 import FooterPart from "../components/ui/FooterPart";
 import Footer from "../components/layouts/Footer";
 import LikeBtn from "../components/ui/LikeBtn";
@@ -27,8 +26,10 @@ const BlogPost = () => {
       <NavBar />
       <section className="xs:mt-26 sm:mt-32 lg:mt-37">
         <div className="bg-[#141414] capitalize font-inter text-white border-b-1 border-[#1e1e1e]">
-          <section>
-            <img src={aipic}alt="" />
+          <section className="h-fit">
+            <img src={aipic}alt=""
+              className="h-[35rem] w-full"
+            />
           </section>
           <section className="flex flex-row h-fit w-fit p-6">
             {/* for the reading articles */}
@@ -70,7 +71,19 @@ const BlogPost = () => {
                 <CommentBtn commentCount={12} />
                 <ShareBtn shareCount={206} />
               </div>
-              <div></div>
+              <div className="flex flex-row">
+                  <figure>
+                    <p className="text-sm text-gray-500 py-2">publication date</p>
+                    <p>october 15,2023</p>
+                  </figure>
+                  <figure>
+                    <p className="text-sm text-gray-500 py-2">category</p>
+                    <p>healthcare</p>
+
+                    <p className="text-sm text-gray-500 py-2">author name</p>
+                    <p>dr.emily walker</p>
+                  </figure>
+              </div>
             </figure>
           </section>
         </div>
