@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AppButton from "../ui/AppButton";
+import { useNavigate} from "react-router-dom";
 import { Link } from "react-router-dom";
 import { BsArrowUpRight } from "react-icons/bs";
 import { useMediaQuery } from "react-responsive";
@@ -11,6 +12,7 @@ import "aos/dist/aos.css";
 import Marquee from "react-fast-marquee";
 import logoimg from "../../assets/desktoplogo.png";
 const NavBar = () => {
+  const navigate=useNavigate()
   const [show, setShow] = useState(false);
   useEffect(() => {
     if (show) {
@@ -101,7 +103,7 @@ const NavBar = () => {
           ""
         )}
         {/* for the contact button */}
-        {!isMobile ? <AppButton BtnText="contact us" showColor={true} /> : ""}
+        {!isMobile ? <AppButton BtnText="contact us" showColor={true} BtnFunction={()=>navigate('/contact')} /> : ""}
         {/* for the mobile breakpoint */}
         {isMobile ? (
           <div className="">

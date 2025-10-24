@@ -21,7 +21,7 @@ const TextHeader = ({ news_header, news_text }) => {
           {news_header}
         </h2>
       </section>
-      <section className="w-fit md:-ml-[5%] lg:-ml-[20%]">
+      <section className="w-fit md:-ml-[5%] lg:-ml-[12%]">
         <p className="xs:text-ss sm:text-xs  lg:text-sm p-2 text-gray-500 font-medium md:w-[100%] lg:w-[90%]">
           {news_text}
         </p>

@@ -47,7 +47,7 @@ const NewsPage = () => {
         <section
           className="grid xs:grid-cols-1 sm:grid-cols-3 place-items-center h-fit bg-[#141414] sm:p-2 md:p-4 lg:p-6 md:gap-3 lg:gap-0 w-full"
           ref={observerRef}
-          data-aos={visible ? "fade-up" : "fade-down"}
+          data-aos={visible ? "fade-down" : "fade-up"}
           data-aos-duration="2000"
           data-aos-easing="ease-in-out"
         >
@@ -99,7 +99,13 @@ const NewsPage = () => {
           handleNavigate={() => navigate("/news")}
         />
         <div className="grid grid-cols-1 md:grid-cols-2 sm:p-2 md:p-4 lg:p-6 bg-[#141414] text-white font-inter h-fit  xs:place-items-center ">
-          <Suspense fallback={<div>...loading</div>}>
+          <Suspense
+            fallback={
+              <div className="flex w-full justify-center items-center text-white font-medium">
+                <p>loading...</p>
+              </div>
+            }
+          >
             <LazySection />
           </Suspense>
         </div>

@@ -4,6 +4,7 @@ import pic1 from "../assets/newcol1.png";
 import { useMediaQuery } from "react-responsive";
 import pic2 from "../assets/newscol2.png";
 import pic3 from "../assets/newscol3.png";
+import AI from "../assets/aiintelligence.jpg";
 import aipic from "../assets/AI.png";
 import NewsCard from "../components/ui/NewsCard";
 import { useObserver } from "../config/ObserverContext";
@@ -24,19 +25,37 @@ const BlogPost = () => {
   return (
     <>
       <NavBar />
-      <section className="xs:mt-26 sm:mt-32 lg:mt-37">
-        <div className="bg-[#141414] capitalize font-inter text-white border-b-1 border-[#1e1e1e]">
-          <section className="h-fit">
-            <img src={aipic}alt=""
-              className="h-[35rem] w-full"
+      <section className="xs:mt-29 sm:mt-33 lg:mt-38">
+        <div className="bg-[#141414] capitalize font-inter text-white border-b-1 border-[#1e1e1e] mb-3">
+          <section className="h-fit relative">
+            <img
+              src={AI}
+              alt=""
+              ref={observerRef}
+              data-aos-duration="1000"
+              data-aos-easing="ease-in-out"
+              data-aos={visible ? "fade-in" : "fade-out"}
+              className="xs:h-[11.5rem] sm:h-[18rem] md:h-[20rem] lg:h-[35rem] w-full object-cover"
             />
+            {/* for the blog post introduction */}
+            <p className="font-semibold xs:text-xl sm:text-3xl md:text-4xl lg:text-6xl absolute xs:bottom-0 sm:bottom-2 md:bottom-3 lg:bottom-5 flex justify-self-center xs:p-1 md:p-2 w-fit text-center ">
+              rise of artificial intelligence in the health sector
+            </p>
           </section>
-          <section className="flex flex-row h-fit w-fit p-6">
-            {/* for the reading articles */}
-            <figure className="flex flex-col w-[50%] h-fit border-r-1 border-[#1e1e1e]">
-              <div className="border-1 border-[#1e1e1e] h-[10rem] p-3">
-                <h2 className="font-semibold text-lg py-2">introduction</h2>
-                <p className="text-sm text-gray-300 font-light w-[90%] leading-6">
+          <section className="flex xs:flex-col sm:flex-row  h-fit w-fit p-6">
+            {/* for the blogpost reading articles */}
+            <figure className="flex flex-col xs:w-[100%] sm:w-[50%] h-fit border-r-1 border-[#1e1e1e]">
+              <div
+                className="border-1 border-[#1e1e1e] lg:h-[10rem] p-3 "
+                data-aos={visible ? "fade-down" : "fade-up"}
+                data-aos-duration="2000"
+                data-aos-easing="ease-in-out"
+                ref={observerRef}
+              >
+                <h2 className="font-semibold xs:text-sm md:text-md lg:text-lg py-2">
+                  introduction
+                </h2>
+                <p className="xs:text-ss sm:text-xs lg:text-sm text-gray-400 font-light sm:w-[90%] md:leading-5 lg:leading-6">
                   Artificial Intelligence (AI) has emerged as a transformative
                   force in the healthcare industry, reshaping patient care,
                   diagnostics, and research. In this blog post, we explore the
@@ -44,9 +63,18 @@ const BlogPost = () => {
                   diagnostic accuracy to enhancing patient outcomes.
                 </p>
               </div>
-              <div className="h-[14rem] p-3 border-1 border-[#1e1e1e] relative ">
-                <h2 className="text-lg py-3 ">artificial AI</h2>
-                <p className="text-sm font-light text-gray-300 w-[90%] leading-6 ">
+              <div
+                className="lg:h-[14rem] p-3 border-1 border-[#1e1e1e] relative  "
+                ref={observerRef}
+                data-aos-delay="600"
+                data-aos-easing="ease-in-out"
+                data-aos={visible ? "fade-down" : "fade-up"}
+                data-aos-duration="2000"
+              >
+                <h2 className=" xs:text-sm md:text-md lg:text-lg py-1.5 sm:py-3 ">
+                  artificial AI
+                </h2>
+                <p className="xs:text-ss sm:text-xs lg:text-sm font-light text-gray-400 sm:w-[90%] md:leading-5 lg:leading-6 ">
                   Artificial Intelligence (AI) has permeated virtually every
                   aspect of our lives, and healthcare is no exception. The
                   integration of AI in healthcare is ushering in a new era of
@@ -59,43 +87,55 @@ const BlogPost = () => {
                   surrounding this revolutionary technology.......
                 </p>
 
-                <button className="w-fit flex justify-self-center absolute -bottom-3">
+                <button className="w-fit flex justify-self-center absolute sm:-bottom-3 ">
                   <AppButton BtnText={"read full blog"} wide={true} />
                 </button>
               </div>
             </figure>
             {/* for the likes and publication of date */}
-            <figure className="flex flex-col w-[50%]">
-              <div className="flex justify-around w-[17rem] h-[4rem] items-center mx-auto justify-self-center p-2 ">
+            <figure
+              className="flex flex-col mt-7.5 sm:mt-0 sm:w-[50%]"
+              ref={observerRef}
+              data-aos-delay="1200"
+              data-aos={visible ? "fade-down" : "fade-up"}
+              data-aos-duration="2000"
+            >
+              <div className="flex justify-around xs:w-[19rem] sm:w-[15rem] lg:w-[17rem] h-[4rem] items-center mx-auto p-2  mt-4">
                 <LikeBtn likeCount={24.5 + "k"} Like={true} />
                 <CommentBtn commentCount={12} />
                 <ShareBtn shareCount={206} />
               </div>
-              <div className="flex flex-row">
-                  <figure>
-                    <p className="text-sm text-gray-500 py-2">publication date</p>
-                    <p>october 15,2023</p>
-                  </figure>
-                  <figure>
-                    <p className="text-sm text-gray-500 py-2">category</p>
-                    <p>healthcare</p>
+              <div className="flex flex-row xs:w-[20rem] sm:w-[70%] md:w-[50%] lg:w-[30%] justify-between mx-auto ">
+                <figure className="">
+                  <p className="xs:text-xs lg:text-sm text-gray-500 py-2">
+                    publication date
+                  </p>
+                  <p className="py-2 xs:text-sm lg:text-md">october 15,2023</p>
+                </figure>
+                <figure>
+                  <p className="xs:text-xs lg:text-sm text-gray-500 py-2">
+                    category
+                  </p>
+                  <p className="py-2 xs:text-sm lg:text-md">healthcare</p>
 
-                    <p className="text-sm text-gray-500 py-2">author name</p>
-                    <p>dr.emily walker</p>
-                  </figure>
+                  <p className="xs:text-xs lg:text-sm text-gray-500 py-2">
+                    author name
+                  </p>
+                  <p className="py-2 xs:text-sm lg:text-md">dr.emily walker</p>
+                </figure>
               </div>
             </figure>
           </section>
         </div>
         {/* section for blogs */}
-        <p className="bg-[#141414] text-white font-inter text-lg  px-3 capitalize">
+        <p className="bg-[#141414] text-white font-semibold font-inter md:text-md lg:text-lg  px-3 capitalize">
           similar news
         </p>
         <section
           className="grid xs:grid-cols-1 sm:grid-cols-3 place-items-center h-fit bg-[#141414] sm:p-2 md:p-4 lg:p-6 md:gap-3 lg:gap-0 w-full"
           ref={observerRef}
           data-aos-easing="ease-in-out"
-          data-aos={visible ? "fade-up" : "fade-down"}
+          data-aos={visible ? "fade-down" : "fade-up"}
           data-aos-duration="2000"
         >
           <NewsCard
