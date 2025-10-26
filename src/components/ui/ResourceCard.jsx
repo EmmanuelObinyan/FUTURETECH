@@ -37,23 +37,6 @@ const ResourceCard = ({ showBtn = true,ShowMedia=true,content_image,content_vide
           ""
         )}
       </div>
-      {/* <figure className="grid grid-cols-1 sm:grid-cols-3 gap-3 ">
-        <SectionCard
-          TextInvert={false}
-          sub_title="publication date"
-          sub_text="july 2023"
-        />
-           <SectionCard
-           TextInvert={false}
-          sub_title="category"
-          sub_text="quantum computing"
-         />
-           <SectionCard
-           TextInvert={false}
-          sub_title="author"
-          sub_text="dr.quartum"
-         />
-      </figure> */}
     </section>
   );
 };

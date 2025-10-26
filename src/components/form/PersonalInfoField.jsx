@@ -1,6 +1,6 @@
 import React from "react";
 import CountryList from "country-list-with-dial-code-and-flag";
-const PersonalInfoField = ({handleRead,info}) => {
+const PersonalInfoField = ({handleRead,info,message=true}) => {
 
   return (
     <div>
@@ -14,9 +14,26 @@ const PersonalInfoField = ({handleRead,info}) => {
       
       <input
         type="text"
+        name="fullname"
         onChange={handleRead}
          value={info.fullname}
         placeholder="enter your fullname"
+        className="pl-3 pr-3 py-2 mt-2 h-10 xs:w-[100%] sm:w-[95%] md:w-[90%] lg:w-[85%] border-1 border-gray-500  placeholder:capitalize  xs:text-xs lg:text-sm font-light"
+      />
+      {/* for the email */}
+        <label
+        className="block capitalize my-2 xs:text-sm  lg:text-md"
+        htmlFor=""
+      >
+        email
+      </label>
+      
+      <input
+        type="text"
+        name="email"
+        onChange={handleRead}
+         value={info.email}
+        placeholder="enter your email"
         className="pl-3 pr-3 py-2 mt-2 h-10 xs:w-[100%] sm:w-[95%] md:w-[90%] lg:w-[85%] border-1 border-gray-500  placeholder:capitalize  xs:text-xs lg:text-sm font-light"
       />
       {/* for the nationality */}
@@ -28,6 +45,7 @@ const PersonalInfoField = ({handleRead,info}) => {
       </label>
       <input
         type="text"
+        name="nationality"
         onChange={handleRead}
         value={info.nationality}
         placeholder="enter your nationality"
@@ -41,8 +59,9 @@ const PersonalInfoField = ({handleRead,info}) => {
       </label>
       <input
         type="text"
+        name="employeestatus"
         onChange={handleRead}
-        value={info.nationality}
+        value={info.employeestatus}
         placeholder="your status"
         className="pl-3 pr-3 py-2 mt-2 h-10 xs:w-[100%] sm:w-[95%] md:w-[90%] lg:w-[85%] border-1 border-gray-500  placeholder:capitalize  xs:text-xs lg:text-sm font-light"
       />
@@ -55,10 +74,11 @@ const PersonalInfoField = ({handleRead,info}) => {
         country code
       </label>
          <div className="flex items-center mb-3">
-        <select name=""
+        <select name="phonecode"
          id=""
+         onChange={handleRead}
          value={info.phoneCode}
-         className="xs:text-ss sm:text-xs lg:text-sm capitalize h-10">
+         className="xs:text-ss sm:text-xs lg:text-sm capitalize h-10 text-white bg-[#141414]">
             {
             CountryList.getAll().map((item,index)=>(
             <option key={index} value={`${item.dial_code}`}>{item.flag} {item.dial_code}</option>
@@ -67,8 +87,9 @@ const PersonalInfoField = ({handleRead,info}) => {
 
         <input
         type="text"
+        name="phone"
         onChange={handleRead}
-        value={info.number}
+        value={info.phone}
         placeholder="your phone number"
         className="pl-3 pr-3 py-2  h-10 xs:w-[90%] sm:w-[81%] md:w-[79%] lg:w-[75%] border-1 border-gray-500  placeholder:capitalize  xs:text-xs lg:text-sm font-light"
       />
@@ -78,14 +99,15 @@ const PersonalInfoField = ({handleRead,info}) => {
         className="block capitalize mb-2 mt-3 xs:text-sm  lg:text-md"
         htmlFor=""
       >
-        your personal bio
+        {message ? "message":"personal bio"}
       </label>
-      <textarea name=""
+      <textarea
        id=""
+       name="message"
        onChange={handleRead}
        value={info.message}
        className=" pl-2 border-1 border-gray-500 xs:w-[95%] sm:w-[95%] md:w-[85%] lg:w-[80%]  h-30 placeholder:capitalize  xs:text-xs lg:text-sm font-light"
-        placeholder="write about yourself">
+        placeholder={!message ?"write about yourself":"enter your message"}>
       </textarea>
     </div>
   );

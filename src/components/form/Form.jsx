@@ -10,7 +10,8 @@ import PersonalInfoField from "./PersonalInfoField";
 import BlogField from "./BlogField";
 const Form = ({
   ShowText,
-  showPassword=true,
+  message,
+  showPassword = true,
   User,
   InputField = true,
   forgotten = false,
@@ -18,6 +19,7 @@ const Form = ({
   SignupLink = false,
   LoginLink = false,
   content,
+  showBlue,
   blogEditor = true,
   Text,
   disable,
@@ -49,7 +51,9 @@ const Form = ({
           e.preventDefault();
         }}
         action=""
-        className={` xs:w-[20rem] sm:w-[25rem] md:w-[30rem] lg:w-[35rem] h-fit px-3  py-4 ${border_show ? "border-1 border-gray-700/20 rounded-lg":""}`}
+        className={` xs:w-[20rem] sm:w-[25rem] md:w-[30rem] lg:w-[35rem] h-fit px-3  py-4 ${
+          border_show ? "border-1 border-gray-700/20 rounded-lg" : ""
+        }`}
       >
         {/* form head text */}
         <FormheadText textShow={ShowText} />
@@ -80,7 +84,11 @@ const Form = ({
         {/* for the personal information field */}
 
         {personalShow ? (
-          <PersonalInfoField info={""} handleRead={handleChange} />
+          <PersonalInfoField
+            info={User}
+            handleRead={handleChange}
+            message={message}
+          />
         ) : (
           ""
         )}
@@ -106,31 +114,31 @@ const Form = ({
               />
             </div>
             {/* for the password */}
-           
-           {
-             showPassword ?
-          ( <>
-            <label
-              className="xs:ml-1 sm:ml-3 md:ml-4 lg:ml-7 block capitalize mt-4 mb-2 xs:text-sm  lg:text-md"
-              htmlFor=""
-            >
-              password
-            </label>
-            <div className="xs:ml-1 sm:ml-3 md:ml-4 lg:ml-7 w-[full] h-fit relative">
-              {/* for the password icon */}
-              <RiLockPasswordFill className="absolute xs:bottom-2 sm:bottom-1 xs:left-1 sm:left-1 xs:text-2xl sm:text-3xl md:h-[60%]" />
-              <input
-                type="text"
-                placeholder="enter your password"
-                onChange={handleChange}
-                name="password"
-                value={User.password}
-                className="pl-10 pr-3 py-2 mt-2 h-10  xs:w-[100%] sm:w-[95%] md:w-[90%] border-1 border-gray-700/20  placeholder:capitalize  xs:text-xs lg:text-sm font-light"
-              />
-            </div>
-               </> )
-               :""
-                }
+
+            {showPassword ? (
+              <>
+                <label
+                  className="xs:ml-1 sm:ml-3 md:ml-4 lg:ml-7 block capitalize mt-4 mb-2 xs:text-sm  lg:text-md"
+                  htmlFor=""
+                >
+                  password
+                </label>
+                <div className="xs:ml-1 sm:ml-3 md:ml-4 lg:ml-7 w-[full] h-fit relative">
+                  {/* for the password icon */}
+                  <RiLockPasswordFill className="absolute xs:bottom-2 sm:bottom-1 xs:left-1 sm:left-1 xs:text-2xl sm:text-3xl md:h-[60%]" />
+                  <input
+                    type="text"
+                    placeholder="enter your password"
+                    onChange={handleChange}
+                    name="password"
+                    value={User.password}
+                    className="pl-10 pr-3 py-2 mt-2 h-10  xs:w-[100%] sm:w-[95%] md:w-[90%] border-1 border-gray-700/20  placeholder:capitalize  xs:text-xs lg:text-sm font-light"
+                  />
+                </div>
+              </>
+            ) : (
+              ""
+            )}
 
             {/* for the forgotten password */}
             {passwordLinks ? (
@@ -195,6 +203,7 @@ const Form = ({
           BtnText={Text}
           googleShow={true}
           disable={disable}
+          showBlue={showBlue}
           handleSubmit={btnSubmit}
         />
         {display ? (

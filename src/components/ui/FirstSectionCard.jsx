@@ -1,6 +1,6 @@
 import React from 'react'
-import futureicon from "../../assets/futureicon.png";
-import researchicon from "../../assets/researchicon.png";
+import futureicon from "../../assets/quantumicon.png";
+import researchicon from "../../assets/spaceicon.png";
 
 const FirstSectionCard = ({title,text,photoicon=true}) => {
   return (

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Google from "../../assets/googlebutton.png";
 import { useAuth } from "../../config/AuthContext";
-const Button = ({ BtnText, handleSubmit,disable, googleShow = false, display }) => {
+const Button = ({ BtnText, showBlue=true,handleSubmit,disable, googleShow = false, display }) => {
   const{handleGoogle}=useAuth()
     return (
     <>
@@ -25,7 +25,8 @@ const Button = ({ BtnText, handleSubmit,disable, googleShow = false, display }) 
     rounded-sm 
     justify-center
      border-0
-     bg-blue-700!
+     ${showBlue?" bg-blue-700!" :"bg-[#1e1e1e] "}
+    
     h-10 
     duration-200
  transition-all 
