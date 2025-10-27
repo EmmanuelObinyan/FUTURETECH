@@ -2,10 +2,12 @@ import React from "react";
 import { FaTwitter } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../config/AuthContext";
 import { useObserver } from "../../config/ObserverContext";
 import AppButton from "../ui/AppButton";
 const Footer = () => {
   const { visible, observerRef } = useObserver();
+  const { handleLogout } = useAuth();
   const home = [
     {
       link: "*",
@@ -26,6 +28,10 @@ const Footer = () => {
     {
       link: "/news",
       name: "newsletter",
+    },
+    {
+      link: "/login",
+      name: "log out",
     },
   ];
   const News = [
@@ -68,7 +74,7 @@ const Footer = () => {
               <Link
                 to={item.link}
                 className="cursor-pointer xs:text-ss sm:text-xs lg:text-sm text-gray-500 "
-              >
+             onClick={item.link === "/login" ? ()=>handleLogout():undefined} >
                 <li className="py-1.5">{item.name}</li>
               </Link>
             </ul>
@@ -87,7 +93,9 @@ const Footer = () => {
           </h2>
           {News.map((item, index) => (
             <ul key={index}>
-              <li className="cursor-pointer py-1.5 xs:text-ss sm:text-xs lg:text-sm text-gray-500 ">
+              <li
+                className="cursor-pointer py-1.5 xs:text-ss sm:text-xs lg:text-sm text-gray-500 "
+              >
                 {item}
               </li>
             </ul>
