@@ -11,6 +11,7 @@ import ContactPage from "./pages/ContactPage";
 import ResourcesPage from "./pages/ResourcesPage";
 import Signup from "./pages/Signup";
 import ArticlePage from "./pages/ArticlePage";
+import PersonalInfo from "./pages/PersonalInfo";
 import BlogPost from "./pages/BlogPost";
 import { Toaster } from "sonner";
 import Login from "./pages/Login";
@@ -19,6 +20,7 @@ const App = () => {
     <div>
       <Toaster richColors position="top-right" />
       <Routes>
+         <Route path='/personalinfo' element={<PersonalInfo/>} />
         <Route path='/createPost' element={<ArticlePage/>} />
          <Route path ='/contact' element={<ContactPage/>} />
         <Route path="/blogpost/:id" element={<BlogPost/>} />

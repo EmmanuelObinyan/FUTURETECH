@@ -17,7 +17,7 @@ const PersonalInfoField = ({ handleRead, info, message = true }) => {
         onChange={handleRead}
         value={info.fullname}
         placeholder="enter your fullname"
-        className="pl-3 pr-3 py-2 mt-2 h-10 xs:w-[100%] sm:w-[95%] md:w-[90%] lg:w-[85%] border-1 border-gray-500  placeholder:capitalize  xs:text-xs lg:text-sm font-light"
+        className="pl-3 pr-3 py-2 mt-2 h-10 xs:w-[100%] sm:w-[95%] md:w-[90%] lg:w-[85%] border-1 border-gray-700  placeholder:capitalize  xs:text-xs lg:text-sm font-light"
       />
       {/* for the email */}
       <label
@@ -33,7 +33,7 @@ const PersonalInfoField = ({ handleRead, info, message = true }) => {
         onChange={handleRead}
         value={info.email}
         placeholder="enter your email"
-        className="pl-3 pr-3 py-2 mt-2 h-10 xs:w-[100%] sm:w-[95%] md:w-[90%] lg:w-[85%] border-1 border-gray-500  placeholder:capitalize  xs:text-xs lg:text-sm font-light"
+        className="pl-3 pr-3 py-2 mt-2 h-10 xs:w-[100%] sm:w-[95%] md:w-[90%] lg:w-[85%] border-1 border-gray-700  placeholder:capitalize  xs:text-xs lg:text-sm font-light"
       />
 
       {/* for the nationality */}
@@ -53,7 +53,7 @@ const PersonalInfoField = ({ handleRead, info, message = true }) => {
             onChange={handleRead}
             value={info.nationality}
             placeholder="enter your nationality"
-            className="pl-3 pr-3 py-2 mt-2 h-10 xs:w-[100%] sm:w-[95%] md:w-[90%] lg:w-[85%] border-1 border-gray-500  placeholder:capitalize  xs:text-xs lg:text-sm font-light"
+            className="pl-3 pr-3 py-2 mt-2 h-10 xs:w-[100%] sm:w-[95%] md:w-[90%] lg:w-[85%] border-1 border-gray-700  placeholder:capitalize  xs:text-xs lg:text-sm font-light"
           />
           {/* for the employee status */}
           <label
@@ -68,7 +68,7 @@ const PersonalInfoField = ({ handleRead, info, message = true }) => {
             onChange={handleRead}
             value={info.employeestatus}
             placeholder="your status"
-            className="pl-3 pr-3 py-2 mt-2 h-10 xs:w-[100%] sm:w-[95%] md:w-[90%] lg:w-[85%] border-1 border-gray-500  placeholder:capitalize  xs:text-xs lg:text-sm font-light"
+            className="pl-3 pr-3 py-2 mt-2 h-10 xs:w-[100%] sm:w-[95%] md:w-[90%] lg:w-[85%] border-1 border-gray-700  placeholder:capitalize  xs:text-xs lg:text-sm font-light"
           />
           {/* for the country code and phone number */}
 
@@ -99,7 +99,7 @@ const PersonalInfoField = ({ handleRead, info, message = true }) => {
               onChange={handleRead}
               value={info.phone}
               placeholder="your phone number"
-              className="pl-3 pr-3 py-2  h-10 xs:w-[90%] sm:w-[81%] md:w-[79%] lg:w-[75%] border-1 border-gray-500  placeholder:capitalize  xs:text-xs lg:text-sm font-light"
+              className="pl-3 pr-3 py-2  h-10 xs:w-[90%] sm:w-[81%] md:w-[79%] lg:w-[75%] border-1 border-gray-700  placeholder:capitalize  xs:text-xs lg:text-sm font-light"
             />
           </div>
         </>
@@ -116,7 +116,7 @@ const PersonalInfoField = ({ handleRead, info, message = true }) => {
         name="message"
         onChange={handleRead}
         value={info.message}
-        className=" pl-2 border-1 border-gray-500 xs:w-[95%] sm:w-[95%] md:w-[85%] lg:w-[80%]  h-30 placeholder:capitalize  xs:text-xs lg:text-sm font-light"
+        className=" pl-2 border-1 border-gray-700 xs:w-[95%] sm:w-[95%] md:w-[85%] lg:w-[80%]  h-30 placeholder:capitalize  xs:text-xs lg:text-sm font-light"
         placeholder={!message ? "write about yourself" : "enter your message"}
       ></textarea>
     </div>

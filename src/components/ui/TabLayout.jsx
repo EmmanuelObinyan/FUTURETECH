@@ -61,7 +61,7 @@ const TabLayout = ({blog}) => {
         <AppButton
          width={true}
          BtnFunction={()=>navigate(`/blogpost/${item.id}`)}
-         BtnText="view all blogs"
+         BtnText="view blog"
          iconArrow={true}
         />
       </section>

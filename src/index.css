@@ -6,6 +6,12 @@
   --font-sans:Kumbh+sans,arial;
   --font-inter:Inter,sans-serif;
   --text-ss:0.7rem;
+  --animate-glowing:glowing 2s ease-in-out infinite forwards;
+}
+@keyframes glowing {
+  0% { border-color:  yellow; box-shadow:0 0 5px yellow; }
+  50% { border-color:  purple; box-shadow:0 0 20px purple; }
+  100% { border-color:  red; box-shadow:0 0 5px red; }
 }
 
 *{
