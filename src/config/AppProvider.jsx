@@ -5,15 +5,15 @@ import { ObserverProvider } from "./ObserverContext";
 import { TabProvider } from "./TabContext";
 export const AppProvider=({children})=>{
     return(
+      <AuthProvider>
       <ProfileProvider>
       <TabProvider>
-     <AuthProvider>
       <ObserverProvider>
        {children}
        {/* for the app provider */}
      </ObserverProvider>
-     </AuthProvider>
      </TabProvider>
      </ProfileProvider>
+      </AuthProvider>
     )
 }

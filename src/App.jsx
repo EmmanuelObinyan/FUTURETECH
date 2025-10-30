@@ -6,7 +6,6 @@ import PodcastsPage from "./pages/PodcastsPage";
 import ProfilePage from "./pages/ProfilePage";
 import SettingsPage from "./pages/SettingsPage";
 import NewsPage from "./pages/NewsPage";
-import BlogPage from "./pages/BlogPage";
 import ContactPage from "./pages/ContactPage";
 import ResourcesPage from "./pages/ResourcesPage";
 import Signup from "./pages/Signup";
@@ -28,7 +27,6 @@ const App = () => {
         <Route path="/resources" element={<ResourcesPage />} />
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="/news" element={<NewsPage />} />
-        <Route path="/blog" element={<BlogPage />} />
         <Route path="/podcasts" element={<PodcastsPage />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/" element={<HomePage />} />

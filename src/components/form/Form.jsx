@@ -26,9 +26,8 @@ const Form = ({
   placeholder,
   handleBlur,
   handleChange,
-  blogTitle,
   border_show = true,
-  category,
+  blog,
   display,
   personalShow = false,
   btnSubmit,
@@ -38,6 +37,11 @@ const Form = ({
   const config = useMemo(
     () => ({
       height: 400,
+      theme: "dark",
+      style: {
+        backgroundColor: "#1e1e1e",
+        color: "#f0f0f0",
+      },
       readonly: false, // all options from https://xdsoft.net/jodit/docs/,
       placeholder: placeholder || "Start writing your next blog....",
     }),
@@ -60,14 +64,10 @@ const Form = ({
         {/* for the head title */}
 
         {/* for the blog wirting */}
-        <div className="mb-5 h-fit ">
+        <div className="mb-5 h-fit  ">
           {blogEditor ? (
             <>
-              <BlogField
-                titleValue={blogTitle}
-                category={category}
-                handleRead={handleChange}
-              />
+              <BlogField data={blog} handleRead={handleChange} />
               <JoditEditor
                 ref={editor}
                 value={content}

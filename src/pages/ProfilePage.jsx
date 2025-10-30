@@ -8,9 +8,10 @@ import CommentBtn from "../components/ui/CommentBtn";
 import AppButton from "../components/ui/AppButton";
 import { useObserver } from "../config/ObserverContext";
 import { FaCamera } from "react-icons/fa";
+import { LuNotebookText } from "react-icons/lu";
 import Aos from "aos";
 import "aos/dist/aos.css";
-import FooterPart from '../components/ui/FooterPart'
+import FooterPart from "../components/ui/FooterPart";
 import { Link } from "react-router-dom";
 import biotech from "../assets/biotech.jpg";
 import Footer from "../components/layouts/Footer";
@@ -54,20 +55,24 @@ const ProfilePage = () => {
 
           <div className="w-fit ">
             {/* profile name */}
-            <p className="font-semiboldxs:text-md sm:text-lg md:text-xl lg:text-3xl p-2 text-center md:text-left">{isArray ? "john micheal":"add profile name"}</p>
+            <p className="font-semibold xs:text-md sm:text-lg md:text-xl lg:text-3xl p-2 text-center md:text-left">
+              {isArray ? "john micheal" : "add profile name"}
+            </p>
             {/* personal bio */}
-            <p className="xs:w-[90%] sm:w-[60%] md:w-[80%] lg:w-[75%] text-slate-400 xs:text-xs sm:text-sm italic font-medium p-2 mx-auto md:mx-0 text-center md:text-left">
-             { isArray ? "i love to sing and i love writing novels, and i also love to cook very well" :"add bio" }
+            <p className="xs:w-[90%] sm:w-[60%] md:w-[80%] lg:w-[75%] text-slate-300 xs:text-ss sm:text-sm italic font-medium p-2 mx-auto md:mx-0 text-center md:text-left">
+              {isArray
+                ? "i love to sing and i love writing novels, and i also love to cook very well"
+                : "add bio"}
             </p>
             {/* profile status */}
             <p className="font-medium text-slate-300  text-center md:text-left text-xs sm:text-sm md:text-md p-2">
-              { isArray? "an undergraduate student":"add employee status" }
+              {isArray ? "an undergraduate student" : "add employee status"}
             </p>
             {/* for the profile email,country and phone number */}
             <aside className="flex p-2 mt-3 sm:mt-5 text-xs sm:text-sm  sm:items-center justify-self-center justify-between text-slate-200 font-semibold gap-3 w-fit lg:w-[30rem] flex-col sm:flex-row">
               <p>emmanuelobinyan936@gmail.com</p>
-              <p>{isArray ? "+234 9038773144" :"phone"}</p>
-              <p>{isArray ? "nigerian":"nationality"}</p>
+              <p>{isArray ? "+234 9038773144" : "phone"}</p>
+              <p>{isArray ? "nigerian" : "nationality"}</p>
             </aside>
           </div>
           <Link
@@ -80,26 +85,23 @@ const ProfilePage = () => {
         {/* for the blog post input */}
         <section className="h-fit justify-center flex flex-col sm:flex-row bg-[#141414] py-2 ">
           {/* for the blog post creation */}
-          <div className="sm:w-fit px-2 py-2 border-b-1 border-[#1e1e1e]">
-            <input
-              type="text"
-              className="block p-3 border-1 border-gray-700 rounded-lg w-[90%] lg:w-[28rem] h-[2rem] sm:h-[2.5rem] md:h-[3rem] sm:my-3"
-            />
+          <div className=" px-2 py-2 border-b-1 border-[#1e1e1e] sm:w-[25rem] md:w-[16rem]">
+            <LuNotebookText className="xs:text-3xl sm:text-3xl md:text-4xl  text-slate-300 mb-2" />
             <Link
               to={"/createPost"}
-              className="text-xs sm:text-sm md:text-md text-slate-300 transition-all ease duration-200 active:text-yellow-400 p-2"
+              className="text-sm  md:text-md text-slate-300 transition-all ease duration-200 active:text-yellow-400 p-2"
             >
               create a new blog post
             </Link>
-            <aside className="flex p-2 sm:mt-5 text-xs md:text-sm justify-between text-slate-300 font-semibold w-[10rem] sm:w-[10rem] md:w-[12rem] gap-2">
-              <AppButton BtnText={"blog"}/>
+            <aside className="flex p-2 mt-3 sm:mt-5 text-xs md:text-sm justify-between text-slate-300 font-semibold w-[fit] sm:w-[10rem] md:w-[14rem] gap-2">
+              <AppButton BtnText={"blog"} />
               <AppButton BtnText={"news"} />
               <AppButton BtnText={"podcasts"} />
             </aside>
           </div>
           {/* for the profile blog posts */}
           <div
-            className="sm:w-[50rem] p-2 border-l-1 border-[#1e1e1e] bg-[#141414]"
+            className="sm:w-[50rem] p-1.5 border-l-1 border-[#1e1e1e] bg-[#141414]"
             data-aos={visible ? "fade-left" : "fade-right"}
             data-aos-delay="1000"
             data-aos-easing="ease-in-out"
@@ -108,7 +110,10 @@ const ProfilePage = () => {
             {isArray ? (
               <>
                 {BlogArr.map((item) => (
-                  <section className="flex ml-3 xs:h-[14rem] sm:h-[14rem]  justify-between items-center sm:gap-2 xs:flex-col sm:flex-row capitalize">
+                  <section
+                    className="flex ml-3 xs:h-[14rem] sm:h-[14rem]  justify-between items-center sm:gap-2 xs:flex-col sm:flex-row capitalize"
+                    key={item.id}
+                  >
                     <aside>
                       <p className="text-gray-400 font-light xs:text-ss sm:text-xs md:text-sm py-1.5 ">
                         {item.createdAt}
@@ -143,7 +148,9 @@ const ProfilePage = () => {
               <>
                 {/* for no blog post */}
                 <section className="flex ml-3 xs:h-[14rem] sm:h-[14rem]  justify-center items-center capitalize bg-[#141414]">
-                  <h2 className="py-2 text-sm sm:text-md lg:text-lg">no blog post </h2>
+                  <h2 className="py-2 text-sm sm:text-md lg:text-lg">
+                    no blog post{" "}
+                  </h2>
                 </section>
               </>
             )}
@@ -151,7 +158,7 @@ const ProfilePage = () => {
         </section>
 
         {/* for the footer */}
-        <FooterPart/>
+        <FooterPart />
         <Footer />
       </section>
     </>

@@ -1,14 +1,14 @@
-import React, { useEffect } from "react";
+import React, { lazy, useEffect } from "react";
 import NavBar from "../components/layouts/NavBar";
 import pic1 from "../assets/newcol1.png";
 import { useMediaQuery } from "react-responsive";
 import pic2 from "../assets/newscol2.png";
 import pic3 from "../assets/newscol3.png";
 import AI from "../assets/aiintelligence.jpg";
-import aipic from "../assets/AI.png";
 import NewsCard from "../components/ui/NewsCard";
 import { useObserver } from "../config/ObserverContext";
 import Aos from "aos";
+import { useParams } from "react-router-dom";
 import "aos/dist/aos.css";
 import FooterPart from "../components/ui/FooterPart";
 import Footer from "../components/layouts/Footer";
@@ -22,6 +22,8 @@ const BlogPost = () => {
   });
   const { observerRef, visible } = useObserver();
   const isMobile = useMediaQuery({ query: "(max-width:600px)" });
+  // for the blog post
+  const ID=useParams()
   return (
     <>
       <NavBar />
@@ -30,6 +32,7 @@ const BlogPost = () => {
           <section className="h-fit relative">
             <img
               src={AI}
+              loading={lazy}
               alt=""
               ref={observerRef}
               data-aos-duration="1000"

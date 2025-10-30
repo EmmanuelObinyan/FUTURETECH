@@ -28,8 +28,8 @@ const FormheadText = ({textShow}) => {
    {
       textShow === "blog" &&
     (
-        <p className='capitalize font-semibold font-inter xs:text-md sm:text-lg md:text-xl lg:text-2xl  w-fit'>
-        post a new blog
+        <p className='capitalize text-center font-semibold font-inter xs:text-md sm:text-lg md:text-xl lg:text-2xl py-2'>
+        create a new blog post
     </p>
     )
    }

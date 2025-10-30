@@ -25,7 +25,7 @@ const Button = ({ BtnText, showBlue=true,handleSubmit,disable, googleShow = fals
     rounded-sm 
     justify-center
      border-0
-     ${showBlue?" bg-blue-700!" :"bg-[#1e1e1e] "}
+     ${showBlue?" bg-blue-700!" :"bg-[#1e1e1e] border-1 border-slate-500"}
     
     h-10 
     duration-200
