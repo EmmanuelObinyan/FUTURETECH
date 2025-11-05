@@ -33,6 +33,14 @@ const FormheadText = ({textShow}) => {
     </p>
     )
    }
+    {
+      textShow === "personal" &&
+    (
+        <p className='capitalize text-center font-semibold font-inter xs:text-md sm:text-lg md:text-xl lg:text-2xl py-2'>
+        edit personal profile
+    </p>
+    )
+   }
     </>
   )
 }

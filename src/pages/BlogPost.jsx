@@ -1,13 +1,27 @@
-import React, { lazy, useEffect } from "react";
+import React, { lazy, useEffect, useState } from "react";
 import NavBar from "../components/layouts/NavBar";
 import pic1 from "../assets/newcol1.png";
 import { useMediaQuery } from "react-responsive";
 import pic2 from "../assets/newscol2.png";
 import pic3 from "../assets/newscol3.png";
+// for the category images
 import AI from "../assets/aiintelligence.jpg";
+import environment from "../assets/environment.jpg";
+import biotech from "../assets/biotech.jpg";
+import health from "../assets/health.jpg";
+import politics from "../assets/poliitics.jpg";
+import space from "../assets/space.jpg";
+import sports from "../assets/spacebooks.png";
+import tech from "../assets/technology.jpg";
+import quantum from "../assets/quantumpapers.png";
+import energy from "../assets/energy.jpg";
+// the end of the images
 import NewsCard from "../components/ui/NewsCard";
 import { useObserver } from "../config/ObserverContext";
 import Aos from "aos";
+import { db } from "../config/Firebase";
+import { useAuth } from "../config/AuthContext";
+import { getDoc, doc, onSnapshot } from "firebase/firestore";
 import { useParams } from "react-router-dom";
 import "aos/dist/aos.css";
 import FooterPart from "../components/ui/FooterPart";
@@ -16,58 +30,212 @@ import LikeBtn from "../components/ui/LikeBtn";
 import CommentBtn from "../components/ui/CommentBtn";
 import ShareBtn from "../components/ui/ShareBtn";
 import AppButton from "../components/ui/AppButton";
+import LoaderComp from "../components/ui/LoaderComp";
 const BlogPost = () => {
+  // to open a sliced text
+  const [readmore, setReadmore] = useState(false);
+
   useEffect(() => {
     Aos.init();
   });
+  const { author } = useAuth();
   const { observerRef, visible } = useObserver();
   const isMobile = useMediaQuery({ query: "(max-width:600px)" });
-  // for the blog post
-  const ID=useParams()
+  // unique id for each blog post
+  const { id } = useParams();
+  // a loading state
+  const [loading, setLoading] = useState(true);
+  const [blog, setBlog] = useState(null);
+  const [authorName, setAuthorName] = useState(null);
+  // to fetch the blog post
+  useEffect(() => {
+    // wait until author is available
+    if (!author) {
+      console.log("No author yet, skipping fetch");
+      return;
+    }
+    const fetchBlog = async () => {
+      setLoading(true);
+      try {
+        const document = doc(db, "author", author.uid, "blogs", id);
+        const snapshot = await getDoc(document);
+
+        if (snapshot.exists()) {
+          const blogData = snapshot.data();
+          setBlog(blogData);
+          if (blogData.authorId) {
+            const userRef = doc(db, "author", blogData.authorId);
+            const unsubUser = onSnapshot(
+              userRef,
+              (usersnap) => {
+                if (usersnap.exists()) {
+                  const authorData = usersnap.data();
+                  setAuthorName(authorData);
+                }
+              },
+              (error) => {
+                console.error("Error getting author:", error);
+              }
+            );
+            return () => unsubUser();
+          } else {
+            console.log("No authorId in blog data");
+          }
+        } else {
+          console.log("Blog document does not exist");
+          setBlog(null);
+        }
+      } catch (error) {
+        console.log(error);
+        setBlog(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlog();
+  }, [id, author]);
+
+  // to change the images
+
   return (
     <>
+      {loading ? <LoaderComp /> : ""}
       <NavBar />
       <section className="xs:mt-29 sm:mt-33 lg:mt-38">
         <div className="bg-[#141414] capitalize font-inter text-white border-b-1 border-[#1e1e1e] mb-3">
           <section className="h-fit relative">
+            {/* for category images */}
             <img
-              src={AI}
+              src={blog?.category === "environment" && environment}
               loading={lazy}
               alt=""
               ref={observerRef}
               data-aos-duration="1000"
               data-aos-easing="ease-in-out"
               data-aos={visible ? "fade-in" : "fade-out"}
-              className="xs:h-[11.5rem] sm:h-[18rem] md:h-[20rem] lg:h-[35rem] w-full object-cover"
+              className={`xs:h-[11.5rem] sm:h-[18rem] md:h-[20rem] lg:h-[35rem] w-full object-cover ${
+                blog?.category === "environment" ? "" : "hidden"
+              } `}
+            />
+            <img
+              src={blog?.category === "aiintelligence" && AI}
+              loading={lazy}
+              alt=""
+              ref={observerRef}
+              data-aos-duration="1000"
+              data-aos-easing="ease-in-out"
+              data-aos={visible ? "fade-in" : "fade-out"}
+              className={`xs:h-[11.5rem] sm:h-[18rem] md:h-[20rem] lg:h-[35rem] w-full object-cover ${
+                blog?.category === "aiintelligence" ? "" : "hidden"
+              }`}
+            />
+            <img
+              src={blog?.category === "biotechnology" && biotech}
+              loading={lazy}
+              alt=""
+              ref={observerRef}
+              data-aos-duration="1000"
+              data-aos-easing="ease-in-out"
+              data-aos={visible ? "fade-in" : "fade-out"}
+              className={`xs:h-[11.5rem] sm:h-[18rem] md:h-[20rem] lg:h-[35rem] w-full object-cover ${
+                blog?.category === "biotechnology" ? "" : "hidden"
+              }`}
+            />
+            <img
+              src={blog?.category === "health" && health}
+              loading={lazy}
+              alt=""
+              ref={observerRef}
+              data-aos-duration="1000"
+              data-aos-easing="ease-in-out"
+              data-aos={visible ? "fade-in" : "fade-out"}
+              className={`xs:h-[11.5rem] sm:h-[18rem] md:h-[20rem] lg:h-[35rem] w-full object-cover ${
+                blog?.category === "health" ? "" : "hidden"
+              }`}
+            />
+            <img
+              src={blog?.category === "politics" && politics}
+              loading={lazy}
+              alt=""
+              ref={observerRef}
+              data-aos-duration="1000"
+              data-aos-easing="ease-in-out"
+              data-aos={visible ? "fade-in" : "fade-out"}
+              className={`xs:h-[11.5rem] sm:h-[18rem] md:h-[20rem] lg:h-[35rem] w-full object-cover ${
+                blog?.category === "politics" ? "" : "hidden"
+              }`}
+            />
+            <img
+              src={blog?.category === "space-exploration" && space}
+              loading={lazy}
+              alt=""
+              ref={observerRef}
+              data-aos-duration="1000"
+              data-aos-easing="ease-in-out"
+              data-aos={visible ? "fade-in" : "fade-out"}
+              className={`xs:h-[11.5rem] sm:h-[18rem] md:h-[20rem] lg:h-[35rem] w-full object-cover ${
+                blog?.category === "space-exploration" ? "" : "hidden"
+              }`}
+            />
+            <img
+              src={blog?.category === "sports" && sports}
+              loading={lazy}
+              alt=""
+              ref={observerRef}
+              data-aos-duration="1000"
+              data-aos-easing="ease-in-out"
+              data-aos={visible ? "fade-in" : "fade-out"}
+              className={`xs:h-[11.5rem] sm:h-[18rem] md:h-[20rem] lg:h-[35rem] w-full object-cover ${
+                blog?.category === "sports" ? "" : "hidden"
+              }`}
+            />
+            <img
+              src={blog?.category === "technology" && tech}
+              loading={lazy}
+              alt=""
+              ref={observerRef}
+              data-aos-duration="1000"
+              data-aos-easing="ease-in-out"
+              data-aos={visible ? "fade-in" : "fade-out"}
+              className={`xs:h-[11.5rem] sm:h-[18rem] md:h-[20rem] lg:h-[35rem] w-full object-cover ${
+                blog?.category === "technology" ? "" : "hidden"
+              }`}
+            />
+            <img
+              src={blog?.category === "quantum-computing" && quantum}
+              loading={lazy}
+              alt=""
+              ref={observerRef}
+              data-aos-duration="1000"
+              data-aos-easing="ease-in-out"
+              data-aos={visible ? "fade-in" : "fade-out"}
+              className={`xs:h-[11.5rem] sm:h-[18rem] md:h-[20rem] lg:h-[35rem] w-full object-cover ${
+                blog?.category === "quantum-computing" ? "" : "hidden"
+              }`}
+            />
+            <img
+              src={blog?.category === "renewable-energy" && energy}
+              loading={lazy}
+              alt=""
+              ref={observerRef}
+              data-aos-duration="1000"
+              data-aos-easing="ease-in-out"
+              data-aos={visible ? "fade-in" : "fade-out"}
+              className={`xs:h-[11.5rem] sm:h-[18rem] md:h-[20rem] lg:h-[35rem] w-full object-cover ${
+                blog?.category === "renewable-energy" ? "" : "hidden"
+              }`}
             />
             {/* for the blog post introduction */}
-            <p className="font-semibold xs:text-xl sm:text-3xl md:text-4xl lg:text-6xl absolute xs:bottom-0 sm:bottom-2 md:bottom-3 lg:bottom-5 flex justify-self-center xs:p-1 md:p-2 w-fit text-center ">
-              rise of artificial intelligence in the health sector
+            <p className="font-bold xs:text-2xl sm:text-3xl md:text-4xl lg:text-6xl absolute xs:bottom-0 sm:bottom-2 md:bottom-3 lg:bottom-5 flex justify-self-center xs:p-1 md:p-2 w-fit text-center ">
+              {blog?.title}
             </p>
           </section>
           <section className="flex xs:flex-col sm:flex-row  h-fit w-fit p-6">
             {/* for the blogpost reading articles */}
-            <figure className="flex flex-col xs:w-[100%] sm:w-[50%] h-fit border-r-1 border-[#1e1e1e]">
+            <figure className=" xs:w-[100%] sm:w-[50%] h-fit border-r-1 border-[#1e1e1e]">
               <div
-                className="border-1 border-[#1e1e1e] lg:h-[10rem] p-3 "
-                data-aos={visible ? "fade-down" : "fade-up"}
-                data-aos-duration="2000"
-                data-aos-easing="ease-in-out"
-                ref={observerRef}
-              >
-                <h2 className="font-semibold xs:text-sm md:text-md lg:text-lg py-2">
-                  introduction
-                </h2>
-                <p className="xs:text-ss sm:text-xs lg:text-sm text-gray-400 font-light sm:w-[90%] md:leading-5 lg:leading-6">
-                  Artificial Intelligence (AI) has emerged as a transformative
-                  force in the healthcare industry, reshaping patient care,
-                  diagnostics, and research. In this blog post, we explore the
-                  profound impact of AI in healthcare, from revolutionizing
-                  diagnostic accuracy to enhancing patient outcomes.
-                </p>
-              </div>
-              <div
-                className="lg:h-[14rem] p-3 border-1 border-[#1e1e1e] relative  "
+                className="h-[fit] p-3 border-1 border-[#1e1e1e] relative  "
                 ref={observerRef}
                 data-aos-delay="600"
                 data-aos-easing="ease-in-out"
@@ -75,23 +243,23 @@ const BlogPost = () => {
                 data-aos-duration="2000"
               >
                 <h2 className=" xs:text-sm md:text-md lg:text-lg py-1.5 sm:py-3 ">
-                  artificial AI
+                  {blog?.category}
                 </h2>
-                <p className="xs:text-ss sm:text-xs lg:text-sm font-light text-gray-400 sm:w-[90%] md:leading-5 lg:leading-6 ">
-                  Artificial Intelligence (AI) has permeated virtually every
-                  aspect of our lives, and healthcare is no exception. The
-                  integration of AI in healthcare is ushering in a new era of
-                  medical practice, where machines complement the capabilities
-                  of healthcare professionals, ultimately improving patient
-                  outcomes and the efficiency of the healthcare system. In this
-                  blog post, we will delve into the diverse applications of AI
-                  in healthcare, from diagnostic imaging to personalized
-                  treatment plans, and address the ethical considerations
-                  surrounding this revolutionary technology.......
-                </p>
+                <p
+                  className="xs:text-ss sm:text-xs lg:text-sm font-light text-gray-400 sm:w-[90%] md:leading-5 lg:leading-6 "
+                  dangerouslySetInnerHTML={{
+                    __html: readmore
+                      ? blog?.content
+                      : blog?.content.slice(0, 150) + "...",
+                  }}
+                ></p>
 
-                <button className="w-fit flex justify-self-center absolute sm:-bottom-3 ">
-                  <AppButton BtnText={"read full blog"} wide={true} />
+                <button className="w-fit flex justify-self-center absolute sm:-bottom-8 ">
+                  <AppButton
+                    BtnText={`${readmore ? "see less " : "read full blog"}`}
+                    wide={true}
+                    BtnFunction={() => setReadmore(!readmore)}
+                  />
                 </button>
               </div>
             </figure>
@@ -104,32 +272,39 @@ const BlogPost = () => {
               data-aos-duration="2000"
             >
               <div className="flex justify-around xs:w-[19rem] sm:w-[15rem] lg:w-[17rem] h-[4rem] items-center mx-auto p-2  mt-4">
-                <LikeBtn likeCount={24.5 + "k"} Like={true} />
-                <CommentBtn commentCount={12} />
-                <ShareBtn shareCount={206} />
+                <LikeBtn likeCount={blog?.likes} Like={blog?.likes} />
+                <CommentBtn commentCount={blog?.comment} />
+                <ShareBtn shareCount={""} />
               </div>
-              <div className="flex flex-row xs:w-[20rem] sm:w-[70%] md:w-[50%] lg:w-[30%] justify-between mx-auto ">
+              <div className="flex flex-row xs:w-[20rem] sm:w-[70%] md:w-[50%] lg:w-[50%] justify-between mx-auto ">
                 <figure className="">
                   <p className="xs:text-xs lg:text-sm text-gray-500 py-2">
                     publication date
                   </p>
-                  <p className="py-2 xs:text-sm lg:text-md">october 15,2023</p>
+                  <p className="py-2 xs:text-sm lg:text-md">
+                    {blog?.createdAt}
+                  </p>
                 </figure>
                 <figure>
                   <p className="xs:text-xs lg:text-sm text-gray-500 py-2">
                     category
                   </p>
-                  <p className="py-2 xs:text-sm lg:text-md">healthcare</p>
+                  <p className="py-2 xs:text-sm lg:text-md">{blog?.category}</p>
 
                   <p className="xs:text-xs lg:text-sm text-gray-500 py-2">
                     author name
                   </p>
-                  <p className="py-2 xs:text-sm lg:text-md">dr.emily walker</p>
+                  <p className="py-2 xs:text-sm lg:text-md">
+                    <p className="py-2 xs:text-sm lg:text-md">
+                      {authorName?.fullname || "Loading..."}
+                    </p>
+                  </p>
                 </figure>
               </div>
             </figure>
           </section>
         </div>
+
         {/* section for blogs */}
         <p className="bg-[#141414] text-white font-semibold font-inter md:text-md lg:text-lg  px-3 capitalize">
           similar news

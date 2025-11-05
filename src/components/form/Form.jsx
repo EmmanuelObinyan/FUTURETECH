@@ -31,8 +31,9 @@ const Form = ({
   display,
   personalShow = false,
   btnSubmit,
+  formref
 }) => {
-  const editor = useRef(null);
+
 
   const config = useMemo(
     () => ({
@@ -69,12 +70,11 @@ const Form = ({
             <>
               <BlogField data={blog} handleRead={handleChange} />
               <JoditEditor
-                ref={editor}
+                ref={formref}
                 value={content}
                 config={config}
                 tabIndex={1} // tabIndex of textarea
                 onBlur={handleBlur} // preferred to use only this option to update the content for performance reasons
-                onChange={handleBlur}
               />
             </>
           ) : (

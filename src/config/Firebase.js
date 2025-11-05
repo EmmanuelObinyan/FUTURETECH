@@ -14,7 +14,7 @@ const firebaseConfig = {
   apiKey:import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: "streamvee-f90b5.firebaseapp.com",
   projectId: "streamvee-f90b5",
-  storageBucket: "streamvee-f90b5.firebasestorage.app",
+  storageBucket: "streamvee-f90b5.appspot.com",
   messagingSenderId: "630949799413",
   appId:import.meta.env.VITE_FIREBASE_APP_ID,
   measurementId: "G-1WL2BY17D6"

@@ -60,14 +60,23 @@ export const AuthProvider = ({ children }) => {
       navigate("/");
     } catch (error) {
       setLoads(false);
-      if (error.code === "auth/internal-error") {
+      if (error.code === "auth/network-request-failed") {
         toast.error("no internet,check your connection", {
           style: {
             backgroundColor: "#1A1A1A",
             color: "#ff4d4f",
           },
         });
-      } else {
+      }
+         if (error.code === "auth/internal-error") {
+        toast.error("error occured", {
+          style: {
+            backgroundColor: "#1A1A1A",
+            color: "#ff4d4f",
+          },
+        });
+      }
+       else {
         console.log(error);
       }
     }

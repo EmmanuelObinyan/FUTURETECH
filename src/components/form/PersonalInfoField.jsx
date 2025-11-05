@@ -20,21 +20,27 @@ const PersonalInfoField = ({ handleRead, info, message = true }) => {
         className="pl-3 pr-3 py-2 mt-2 h-10 xs:w-[100%] sm:w-[95%] md:w-[90%] lg:w-[85%] border-1 border-gray-700  placeholder:capitalize  xs:text-xs lg:text-sm font-light"
       />
       {/* for the email */}
-      <label
-        className="block capitalize my-2 xs:text-sm  lg:text-md"
-        htmlFor=""
-      >
-        email
-      </label>
+      {message ? (
+        <>
+          <label
+            className="block capitalize my-2 xs:text-sm  lg:text-md"
+            htmlFor=""
+          >
+            email
+          </label>
 
-      <input
-        type="text"
-        name="email"
-        onChange={handleRead}
-        value={info.email}
-        placeholder="enter your email"
-        className="pl-3 pr-3 py-2 mt-2 h-10 xs:w-[100%] sm:w-[95%] md:w-[90%] lg:w-[85%] border-1 border-gray-700  placeholder:capitalize  xs:text-xs lg:text-sm font-light"
-      />
+          <input
+            type="text"
+            name="email"
+            onChange={handleRead}
+            value={info.email}
+            placeholder="enter your email"
+            className="pl-3 pr-3 py-2 mt-2 h-10 xs:w-[100%] sm:w-[95%] md:w-[90%] lg:w-[85%] border-1 border-gray-700  placeholder:capitalize  xs:text-xs lg:text-sm font-light"
+          />
+        </>
+      ) : (
+        ""
+      )}
 
       {/* for the nationality */}
       {message ? (
@@ -64,7 +70,7 @@ const PersonalInfoField = ({ handleRead, info, message = true }) => {
           </label>
           <input
             type="text"
-            name="employeestatus"
+            name="status"
             onChange={handleRead}
             value={info.employeestatus}
             placeholder="your status"
@@ -80,7 +86,7 @@ const PersonalInfoField = ({ handleRead, info, message = true }) => {
           </label>
           <div className="flex items-center mb-3">
             <select
-              name="phonecode"
+              name="phoneCode"
               id=""
               onChange={handleRead}
               value={info.phoneCode}

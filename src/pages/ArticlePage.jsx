@@ -1,4 +1,5 @@
 import React from "react";
+import { useRef } from "react";
 import NavBar from "../components/layouts/NavBar";
 import Form from "../components/form/Form";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,12 +9,13 @@ import LoaderComp from "../components/ui/LoaderComp";
 import Footer from "../components/layouts/Footer";
 import FooterPart from "../components/ui/FooterPart";
 const ArticlePage = () => {
+  const editorRef=useRef(null)
   const navigate = useNavigate();
   const { content, handleBlur, handleChange, blog, BlogSubmit, loading } =
     useProfile();
-  if (loading ? <LoaderComp /> : "")
     return (
       <>
+      {loading ? <LoaderComp/>:"" }
         <aside className="h-fit flex items-center m-2">
           <FaArrowCircleLeft
             className="xs:text-lg sm:text-2xl lg:text-3xl m-2 text-white duration-200 transition-all ease active:text-yellow-600"
@@ -32,8 +34,9 @@ const ArticlePage = () => {
             <Form
               InputField={false}
               handleBlur={handleBlur}
-              handleChange={handleChange}
               blog={blog}
+              formref={editorRef}
+              handleChange={handleChange}
               border_show={false}
               btnSubmit={BlogSubmit}
               content={content}
@@ -44,7 +47,7 @@ const ArticlePage = () => {
             />
           </div>
           <FooterPart/>
-           <Footer/>
+         
         </section>
       </>
     );
