@@ -6,7 +6,8 @@ import {
   updateDoc,
   onSnapshot,
   collection,
-  deleteDoc,
+  where,
+  query,
 } from "firebase/firestore";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
@@ -100,10 +101,10 @@ export const ProfileProvider = ({ children }) => {
     setLoading(true);
     try {
       const BlogID = "blog" + Date.now();
-      const response = doc(db, "author", author.uid, "blogs", BlogID);
+      const response = doc(db, "blogs", BlogID);
       await setDoc(response, {
         authorId: author.uid, // Add the author's ID for lookups
-        author: profile.fullname || author.email, // Fallback to email if name not set
+        author: profile.fullname || author.displayName, // Fallback to email if name not set
         title: blog.title,
         category: blog.category,
         content: content,
@@ -335,8 +336,9 @@ export const ProfileProvider = ({ children }) => {
   const [blogpost, setBlogpost] = useState([]);
   useEffect(() => {
     if (!author) return;
-    const collects = collection(db, "author", author.uid, "blogs");
-    const unsubscribeBlog = onSnapshot(collects, (snapshot) => {
+    const collects = collection(db, "blogs");
+    const querys = query(collects, where("authorId", "==", author.uid));
+    const unsubscribeBlog = onSnapshot(querys, (snapshot) => {
       const snapshots = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),

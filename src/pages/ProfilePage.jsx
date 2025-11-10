@@ -43,7 +43,7 @@ const ProfilePage = () => {
         setOpen(false);
         return;
       }
-      const deletedocs = doc(db, "author", author.uid, "blogs", id);
+      const deletedocs = doc(db, "blogs", id);
       await deleteDoc(deletedocs);
       toast.success("blogpost deleted", {
         style: {

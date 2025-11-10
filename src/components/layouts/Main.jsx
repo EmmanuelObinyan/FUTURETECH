@@ -1,4 +1,14 @@
 import React from "react";
+// import { useState,useEffect } from "react";
+// import { db } from "../../config/Firebase";
+// import { useAuth } from "../../config/AuthContext";
+// import {
+//   onSnapshot,
+//   collection,
+//   where,
+//   query,
+//   orderBy,
+// } from "firebase/firestore";
 import MainSectionComp from "../ui/MainSectionComp";
 import Main_Firstsection from "../ui/Main_Firstsection";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +22,8 @@ import FooterPart from "../ui/FooterPart";
 const Main = () => {
   const navigate = useNavigate();
   const { visible, observerRef } = useObserver();
-  const { BlogArr } = useTab();
+  const { BlogArr,posts} = useTab();
+  const   Blog=[]
   const ButtonTabs = [
     "all",
     "quantom computing",
@@ -51,8 +62,9 @@ const Main = () => {
       data-aos={visible ? "fade-down" : "fade-up"}
        data-aos-easing="ease-in-out"
       data-aos-duration="2000">
-        <TabCard TabsItems={ButtonTabs} />
-        <TabLayout blog={BlogArr} />
+        <TabCard TabsItems={ButtonTabs}
+        />
+        <TabLayout blog={posts} />
       </section>
       <MainSectionComp
         top_text="your gateaway to in-Depth information"

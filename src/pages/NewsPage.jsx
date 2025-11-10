@@ -24,7 +24,7 @@ const NewsPage = () => {
     Aos.init();
   }, []);
   const navigate = useNavigate();
-  const { NewsArr } = useTab();
+  const { NewsArr,posts } = useTab();
   const ButtonTabs = [
     "all",
     "technology",
@@ -88,7 +88,7 @@ const NewsPage = () => {
           data-aos-duration="2000"
         >
           <TabCard TabsItems={ButtonTabs} />
-          <TabLayout blog={NewsArr} />
+          <TabLayout blog={posts} />
         </div>
         <MainSectionComp
           top_text="featured videos"

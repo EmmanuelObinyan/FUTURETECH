@@ -57,7 +57,7 @@ const BlogPost = () => {
     const fetchBlog = async () => {
       setLoading(true);
       try {
-        const document = doc(db, "author", author.uid, "blogs", id);
+        const document = doc(db,"blogs", id);
         const snapshot = await getDoc(document);
 
         if (snapshot.exists()) {
