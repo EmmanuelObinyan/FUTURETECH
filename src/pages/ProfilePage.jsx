@@ -81,7 +81,7 @@ const ProfilePage = () => {
           <Modal
             cancelFunction={() => setOpen(false)}
             classname={styles}
-            handleClick={() => clickRef.current.click()}
+            handleClick={() => clickRef.current?.click()}
             modalText={"you want to delete this post"}
             exitFunction={() => setOpen(false)}
           />
@@ -209,7 +209,7 @@ const ProfilePage = () => {
                       ></p>
                       {/* => the likes,comment and share btns */}
                       <div className="flex items-center gap-3 py-3">
-                        <LikeBtn likeCount={item.likes} Like={false} />
+                        <LikeBtn likeCount={item.likes} Like={item.likes} />
                         <CommentBtn commentCount={item.comment} />
                         <ShareBtn shareCount={item.shares} />
                       </div>

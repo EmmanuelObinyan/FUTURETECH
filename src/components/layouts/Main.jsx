@@ -22,7 +22,7 @@ import FooterPart from "../ui/FooterPart";
 const Main = () => {
   const navigate = useNavigate();
   const { visible, observerRef } = useObserver();
-  const { BlogArr,posts} = useTab();
+  const { posts} = useTab();
   const   Blog=[]
   const ButtonTabs = [
     "all",

@@ -8,6 +8,8 @@ import {
   collection,
   where,
   query,
+  increment,
+  deleteDoc,
 } from "firebase/firestore";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
@@ -102,9 +104,13 @@ export const ProfileProvider = ({ children }) => {
     try {
       const BlogID = "blog" + Date.now();
       const response = doc(db, "blogs", BlogID);
+      // to gethe author name
+      const document = doc(db, "author", author.uid);
+      const data = await getDoc(document);
+
       await setDoc(response, {
         authorId: author.uid, // Add the author's ID for lookups
-        author: profile.fullname || author.displayName, // Fallback to email if name not set
+        author: data.exists() ? data.data().fullname : null,
         title: blog.title,
         category: blog.category,
         content: content,
@@ -124,7 +130,6 @@ export const ProfileProvider = ({ children }) => {
       }, 2000);
     } catch (error) {
       console.log(error);
-      alert(error);
     } finally {
       setLoading(false);
     }
@@ -133,6 +138,51 @@ export const ProfileProvider = ({ children }) => {
       setBlog({ ...blog, title: "", category: "" });
       setContent("");
     }, 3000);
+  };
+  //
+  // to like a blog post
+  const handleLike = async (blogId) => {
+    if (!author) {
+      return toast.error("Sign in to like posts", {
+        style: {
+          textTransform: "capitalize",
+          backgroundColor: "#1e1e1e",
+          color: "red",
+        },
+      });
+    }
+
+    const blogRef = doc(db, "blogs", blogId);
+    const likeRef = doc(db, "blogs", blogId, "likes", author.uid);
+
+    try {
+      const docSnap = await getDoc(likeRef);
+      if (docSnap.exists()) {
+        // Already liked → unlike
+        await deleteDoc(likeRef);
+        await updateDoc(blogRef, { likes: increment(-1) });
+        toast.success("unliked", {
+          style: {
+            textTransform: "capitalize",
+            backgroundColor: "#1e1e1e",
+            color: "green",
+          },
+        });
+      } else {
+        // Not liked → like
+        await setDoc(likeRef, { authorId: author.uid, likedAt: new Date() });
+        await updateDoc(blogRef, { likes: increment(1) });
+        toast.success("liked", {
+          style: {
+            textTransform: "capitalize",
+            backgroundColor: "#1e1e1e",
+            color: "green",
+          },
+        });
+      }
+    } catch (error) {
+      console.error("Error liking/unliking post:", error);
+    }
   };
   //
   //
@@ -368,6 +418,7 @@ export const ProfileProvider = ({ children }) => {
         image,
         currentpic,
         blogpost,
+        handleLike,
       }}
     >
       {children}

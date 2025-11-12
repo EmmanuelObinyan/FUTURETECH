@@ -35,6 +35,7 @@ export const TabProvider = ({ children }) => {
           ...doc.data(),
         }));
         setPosts(items);
+          
       },
       (err) => {
         console.log(err);
@@ -45,7 +46,7 @@ export const TabProvider = ({ children }) => {
     return () => unsubscribe();
   }, [activeTab]);
   return (
-    <TabContext.Provider value={{ activeTab, setActiveTab, posts }}>
+    <TabContext.Provider value={{ activeTab, setActiveTab, posts}}>
       {children}
     </TabContext.Provider>
   );

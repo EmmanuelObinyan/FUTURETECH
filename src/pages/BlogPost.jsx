@@ -1,4 +1,5 @@
 import React, { lazy, useEffect, useState } from "react";
+import { toast } from "sonner";
 import NavBar from "../components/layouts/NavBar";
 import pic1 from "../assets/newcol1.png";
 import { useMediaQuery } from "react-responsive";
@@ -21,7 +22,8 @@ import { useObserver } from "../config/ObserverContext";
 import Aos from "aos";
 import { db } from "../config/Firebase";
 import { useAuth } from "../config/AuthContext";
-import { getDoc, doc, onSnapshot } from "firebase/firestore";
+import { useProfile } from "../config/ProfileContext";
+import { getDoc, doc, onSnapshot} from "firebase/firestore";
 import { useParams } from "react-router-dom";
 import "aos/dist/aos.css";
 import FooterPart from "../components/ui/FooterPart";
@@ -37,8 +39,9 @@ const BlogPost = () => {
 
   useEffect(() => {
     Aos.init();
-  });
+  }, []);
   const { author } = useAuth();
+  const { handleLike } = useProfile();
   const { observerRef, visible } = useObserver();
   const isMobile = useMediaQuery({ query: "(max-width:600px)" });
   // unique id for each blog post
@@ -46,42 +49,19 @@ const BlogPost = () => {
   // a loading state
   const [loading, setLoading] = useState(true);
   const [blog, setBlog] = useState(null);
-  const [authorName, setAuthorName] = useState(null);
   // to fetch the blog post
-  useEffect(() => {
-    // wait until author is available
-    if (!author) {
-      console.log("No author yet, skipping fetch");
-      return;
-    }
+  useEffect(() => {;
     const fetchBlog = async () => {
       setLoading(true);
       try {
-        const document = doc(db,"blogs", id);
+        const document = doc(db, "blogs", id);
         const snapshot = await getDoc(document);
 
         if (snapshot.exists()) {
           const blogData = snapshot.data();
           setBlog(blogData);
-          if (blogData.authorId) {
-            const userRef = doc(db, "author", blogData.authorId);
-            const unsubUser = onSnapshot(
-              userRef,
-              (usersnap) => {
-                if (usersnap.exists()) {
-                  const authorData = usersnap.data();
-                  setAuthorName(authorData);
-                }
-              },
-              (error) => {
-                console.error("Error getting author:", error);
               }
-            );
-            return () => unsubUser();
-          } else {
-            console.log("No authorId in blog data");
-          }
-        } else {
+         else {
           console.log("Blog document does not exist");
           setBlog(null);
         }
@@ -94,10 +74,30 @@ const BlogPost = () => {
     };
 
     fetchBlog();
-  }, [id, author]);
+  }, [id]);
+  // to get the liked data
+const[liked,setLiked]=useState(false);
+const[likedcount,setLikedcount]=useState(0);
+  useEffect(()=>{
+       if (!author) return;
 
-  // to change the images
+    const likeRef = doc(db, "blogs", id, "likes", author.uid);
+    const unsub = onSnapshot(likeRef, (snap) => {
+      setLiked(snap.exists());
+    });
 
+    return () => unsub();
+  },[id,author,blog]);
+
+  // to get the total likes count from the blog document
+  useEffect(() => {
+    const blogRef = doc(db, "blogs",id);
+    const unsub = onSnapshot(blogRef, (snap) => {
+      setLikedcount(snap.data()?.likes || 0);
+    });
+    return () => unsub();
+  }, [id]);
+  
   return (
     <>
       {loading ? <LoaderComp /> : ""}
@@ -272,7 +272,13 @@ const BlogPost = () => {
               data-aos-duration="2000"
             >
               <div className="flex justify-around xs:w-[19rem] sm:w-[15rem] lg:w-[17rem] h-[4rem] items-center mx-auto p-2  mt-4">
-                <LikeBtn likeCount={blog?.likes} Like={blog?.likes} />
+                <LikeBtn
+                  likeCount={likedcount}
+                  Like={liked}
+                  handleClick={() =>
+                    handleLike(id)
+                  }
+                />
                 <CommentBtn commentCount={blog?.comment} />
                 <ShareBtn shareCount={""} />
               </div>
@@ -295,9 +301,9 @@ const BlogPost = () => {
                     author name
                   </p>
                   <p className="py-2 xs:text-sm lg:text-md">
-                    <p className="py-2 xs:text-sm lg:text-md">
-                      {authorName?.fullname || "Loading..."}
-                    </p>
+                    <span className="py-2 xs:text-sm lg:text-md">
+                      {blog?.author}
+                    </span>
                   </p>
                 </figure>
               </div>
