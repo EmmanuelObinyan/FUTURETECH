@@ -3,7 +3,7 @@ import Aos from "aos";
 import "aos/dist/aos.css";
 import { useObserver } from "../../config/ObserverContext";
 import { useEffect } from "react";
-const TextHeader = ({ news_header, news_text }) => {
+const TextHeader = ({ news_header, news_text,margin=false }) => {
   const{visible,observerRef}=useObserver()
   useEffect(() => {
     Aos.init();
@@ -21,7 +21,7 @@ const TextHeader = ({ news_header, news_text }) => {
           {news_header}
         </h2>
       </section>
-      <section className="w-fit md:-ml-[5%] lg:-ml-[12%]">
+      <section className={`w-fit md:-ml-[5%] ${margin ? "lg:-ml-[9%]": "lg:-ml-[12%] "}` }>
         <p className="xs:text-ss sm:text-xs  lg:text-sm p-2 text-gray-500 font-medium md:w-[100%] lg:w-[90%]">
           {news_text}
         </p>

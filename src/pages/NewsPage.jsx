@@ -24,7 +24,7 @@ const NewsPage = () => {
     Aos.init();
   }, []);
   const navigate = useNavigate();
-  const { NewsArr,posts } = useTab();
+  const { posts } = useTab();
   const ButtonTabs = [
     "all",
     "technology",

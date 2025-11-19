@@ -141,7 +141,7 @@ const ContactPage = () => {
           navigate("/");
         }, 2000);
       } catch (error) {
-        setLoading(false);
+        
         if (error.code === "firestore/network-request-failed") {
           toast.error("no internet,check your connection", {
             style: {
@@ -152,6 +152,9 @@ const ContactPage = () => {
         } else {
           console.log(error);
         }
+      }
+      finally{
+        setLoading(false)
       }
     }
     // to clear text from the input field

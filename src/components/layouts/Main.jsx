@@ -53,7 +53,7 @@ const Main = () => {
         top_text="a knowledge treasure trove"
         body_text="explore futuretech's in-Depth Blog Posts"
         showBtn={true}
-        handleNavigate={() => navigate("/blog")}
+        handleNavigate={() => navigate("*")}
         btnText={"view all blogs"}
         width={true}
       />

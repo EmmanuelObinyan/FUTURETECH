@@ -2,6 +2,7 @@ import React from "react";
 import Aos from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useObserver } from "../../config/ObserverContext";
 import LikeBtn from "./LikeBtn";
 import ShareBtn from "./ShareBtn";
@@ -12,6 +13,7 @@ const NewsPost = () => {
     Aos.init();
   }, []);
   const { visible, observerRef } = useObserver();
+  const navigate = useNavigate()
   return (
     <div
       ref={observerRef}
@@ -52,7 +54,7 @@ const NewsPost = () => {
             <LikeBtn likeCount={14 + "k"} Like={false} />
             <ShareBtn shareCount={202} />
           </figure>
-          <AppButton BtnText="read more" />
+          <AppButton BtnText="read more" BtnFunction={()=>navigate('/')} />
         </div>
       </section>
     </div>
