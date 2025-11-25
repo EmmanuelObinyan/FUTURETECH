@@ -25,6 +25,7 @@ export const ObserverProvider = ({ children }) => {
         };
       }, []);
 
+      
   return (
     <ObserverContext.Provider value={{ visible, setVisible, observerRef }}>
       {children}

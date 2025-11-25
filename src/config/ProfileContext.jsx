@@ -397,10 +397,110 @@ export const ProfileProvider = ({ children }) => {
     });
     return () => unsubscribeBlog();
   }, [author]);
+  // to create a news post
+  const [news, setNews] = useState({
+    title: "",
+    category: "",
+  });
+  // on change to read the values
+  const handleNewsChange = (e) => {
+    setNews({ ...news, [e.target.name]: e.target.value });
+  };
+  const handleNewsSubmit = async () => {
+    let isValid = true;
 
+    if (news.title.trim() === "") {
+      isValid = false;
+      toast.error("news title is required", {
+        style: {
+          textTransform: "capitalize",
+          backgroundColor: "#1e1e1e",
+          color: "red",
+        },
+      });
+    }
+
+    if (news.category.trim() === "") {
+      isValid = false;
+      toast.error("news category is required", {
+        style: {
+          textTransform: "capitalize",
+          backgroundColor: "#1e1e1e",
+          color: "red",
+        },
+      });
+    }
+
+    if (content.trim() === "") {
+      isValid = false;
+      toast.error("news content cannot be empty", {
+        style: {
+          textTransform: "capitalize",
+          backgroundColor: "#1e1e1e",
+          color: "red",
+        },
+      });
+    }
+    // clean up the input fields
+    setTimeout(() => {
+      setBlog({ ...news, title: "", category: "" });
+      setContent("");
+    }, 3000);
+
+    // stop if validation failed
+    if (!isValid) return;
+
+    if (!author) {
+      toast.error("sign in first for image upload", {
+        style: {
+          textTransform: "capitalize",
+          backgroundColor: "#1e1e1e",
+          color: "red",
+        },
+      });
+      return;
+    }
+    const newsID = "news" + Date.now();
+      setLoading(true)
+    try {
+      const personalinfo = doc(db, "author", author.uid);
+      const data = await getDoc(personalinfo);
+      const docref = doc(db, "news", newsID);
+      await setDoc(docref,{
+        authorId: author.uid, // Add the author's ID for lookups
+        author: data.exists() ? data.data().fullname : null,
+        title: news.title,
+        category: news.category,
+        content: content,
+        createdAt: new Date().toLocaleDateString(),
+      })
+      toast.success("news post created successfully", {
+        style: {
+          textTransform: "capitalize",
+          backgroundColor: "#1e1e1e",
+          color: "green",
+        },
+      });
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+    } catch (error) {
+        console.log(error)
+    }
+     finally{
+      setLoading(false)
+     }
+     // clean up the input fields
+    setTimeout(() => {
+      setNews({ ...news, title: "", category: "" });
+      setContent("");
+    }, 3000);
+  };
   return (
     <ProfileContext.Provider
       value={{
+        handleNewsChange,
+        handleNewsSubmit,
         author,
         User,
         content,
@@ -408,6 +508,7 @@ export const ProfileProvider = ({ children }) => {
         handleBlur,
         handleChange,
         blog,
+        news,
         BlogSubmit,
         loading,
         loads,

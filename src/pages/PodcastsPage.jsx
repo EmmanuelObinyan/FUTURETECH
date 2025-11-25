@@ -2,22 +2,24 @@ import React from "react";
 import NavBar from "../components/layouts/NavBar";
 import TextHeader from "../components/ui/TextHeader";
 import ResourceCard from "../components/ui/ResourceCard";
+import MainSectionComp from "../components/ui/MainSectionComp";
 import SectionCard from "../components/ui/SectionCard";
 import PodCastCard from "../components/ui/PodCastCard";
-import cyberAI from '../assets/cyberAI.mp4'
+import cyberAI from "../assets/cyberAI.mp4";
+import visualAI from "../assets/visualAI.mp4";
 import { useObserver } from "../config/ObserverContext";
 import { useEffect } from "react";
 import Aos from "aos";
-import 'aos/dist/aos.css'
+import "aos/dist/aos.css";
 const PodcastsPage = () => {
   useEffect(() => {
     Aos.init();
   }, []);
-  const {visible,observerRef}=useObserver()
+  const { visible, observerRef } = useObserver();
   return (
     <>
       <NavBar />
-      <section className=" text-white font-inter bg-[#141414] font-semibold xs:mt-26 sm:mt-32 lg:mt-37">
+      <section className=" text-white font-inter bg-[#1e1e1e] font-semibold xs:mt-26 sm:mt-32 lg:mt-37">
         <TextHeader
           margin={true}
           news_header="unlock the world of artificial intelligence through podcasts"
@@ -26,37 +28,91 @@ const PodcastsPage = () => {
           }
         />
         {/* for the first video body  */}
-         <div className="bg-[#141414] capitalize flex mt-3 flex-col md:flex-row">
-              <PodCastCard/>
-                  <aside>
-                      <ResourceCard
-                      ShowMedia ={false}
-                      content_video={cyberAI}
-                      showBtn={false}
-                image_classname="xs:h-[10rem]  sm:h-[12rem] md:h-[15rem] lg:h-[20rem] w-full "
-                content_title="quantum computing whitepaper"
-                content_text="An in-depth whitepaper covering the latest advancements in space exploration, including Mars missions and asteroid mining."
+        <div className="bg-[#141414] capitalize flex mt-3 flex-col md:flex-row">
+          <PodCastCard title="AI revolution" host="dr sarah mitchell" />
+          <aside
+            ref={observerRef}
+            data-aos-easing="ease-in-out"
+            data-aos={visible ? "fade-in" : "fade-out"}
+            data-aos-delay="900"
+            data-aos-duration="1500"
+            className="md:w-[50%] lg:w-[60%] flex flex-col items-center justify-center border-1 border-[#1e1e1e] p-5 gap-5 "
+          >
+            <ResourceCard
+              ShowMedia={false}
+              content_video={cyberAI}
+              showBtn={false}
+              image_classname="xs:h-[10rem]  sm:h-[12rem] md:h-[15rem] lg:h-[20rem] w-full "
+              content_title="Delves into the transformative impact of AI"
+              content_text="Join Dr. Sarah Mitchell as she delves into the transformative impact of AI on industries, featuring expert interviews and real-world case studies. Explore the possibilities of AI in healthcare, finance, and more."
+            />
+            <figure className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 ">
+              <SectionCard
+                TextInvert={false}
+                sub_title="total episodes"
+                sub_text="50"
               />
-              <figure className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 ">
-                <SectionCard
-                  TextInvert={false}
-                  sub_title="publication date"
-                  sub_text="july 2023"
-                />
-                <SectionCard
-                  TextInvert={false}
-                  sub_title="category"
-                  sub_text="quantum computing"
-                />
-                <SectionCard
-                  TextInvert={false}
-                  sub_title="author"
-                  sub_text="dr.quantum"
-                />
-              </figure>
-                  </aside>
-         </div>
-          
+              <SectionCard
+                TextInvert={false}
+                sub_title="average episodes length"
+                sub_text="30 mins"
+              />
+              <SectionCard
+                TextInvert={false}
+                sub_title="release frequency"
+                sub_text="weekly"
+              />
+            </figure>
+          </aside>
+        </div>
+        {/* second video body */}
+        <div className="bg-[#141414] capitalize flex mt-3 flex-col md:flex-row">
+          <PodCastCard
+            icon={false}
+            title="AI conversation"
+            host="Mark anderson"
+          />
+          <aside
+            ref={observerRef}
+            data-aos-easing="ease-in-out"
+            data-aos={visible ? "fade-in" : "fade-out"}
+            data-aos-delay="900"
+            data-aos-duration="1500"
+            className="md:w-[50%] lg:w-[60%] flex flex-col items-center justify-center border-1 border-[#1e1e1e] p-5 gap-5 "
+          >
+            <ResourceCard
+              ShowMedia={false}
+              content_video={visualAI}
+              showBtn={false}
+              image_classname="xs:h-[10rem]  sm:h-[12rem] md:h-[15rem] lg:h-[20rem] w-full "
+              content_title="Engage in thought-provoking conversations with leading experts."
+              content_text="Mark discusses the future of AI, the impact on society, and how it's shaping industries worldwide. Engage in thought-provoking conversations with leading experts."
+            />
+            <figure className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 ">
+              <SectionCard
+                TextInvert={false}
+                sub_title="total episodes"
+                sub_text="40"
+              />
+              <SectionCard
+                TextInvert={false}
+                sub_title="average episodes length"
+                sub_text="40 mins"
+              />
+              <SectionCard
+                TextInvert={false}
+                sub_title="release frequency"
+                sub_text="monthly"
+              />
+            </figure>
+          </aside>
+        </div>
+        {/* main divide section */}
+        <MainSectionComp
+          top_text={"stay informed with fresh content"}
+          body_text={"latest podcast episodes"}
+        />
+        {/* for the multiple videos */}
       </section>
     </>
   );

@@ -6,6 +6,7 @@ import PodcastsPage from "./pages/PodcastsPage";
 import ProfilePage from "./pages/ProfilePage";
 import SettingsPage from "./pages/SettingsPage";
 import NewsPage from "./pages/NewsPage";
+import CreateNewsPost from "./pages/CreateNewsPost";
 import ContactPage from "./pages/ContactPage";
 import ResourcesPage from "./pages/ResourcesPage";
 import Signup from "./pages/Signup";
@@ -14,6 +15,8 @@ import PersonalInfo from "./pages/PersonalInfo";
 import BlogPost from "./pages/BlogPost";
 import { Toaster } from "sonner";
 import Login from "./pages/Login";
+import NewsPost from "./components/ui/NewsPost";
+import News from "./pages/News";
 const App = () => {
   return (
     <div>
@@ -22,10 +25,12 @@ const App = () => {
          <Route path='/personalinfo' element={<PersonalInfo/>} />
         <Route path='/createPost' element={<ArticlePage/>} />
          <Route path ='/contact' element={<ContactPage/>} />
-        <Route path="/blogpost/:id" element={<BlogPost/>} />
+        <Route path="/blog/:id" element={<BlogPost/>} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/resources" element={<ResourcesPage />} />
         <Route path="/settings" element={<SettingsPage />} />
+        <Route path='/createnewspost' element={<CreateNewsPost/>} />
+        <Route path='/news/:id' element={<News/>} />
         <Route path="/news" element={<NewsPage />} />
         <Route path="/podcasts" element={<PodcastsPage />} />
         <Route path="/signup" element={<Signup />} />

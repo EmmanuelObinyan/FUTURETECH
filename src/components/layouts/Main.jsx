@@ -1,14 +1,4 @@
 import React from "react";
-// import { useState,useEffect } from "react";
-// import { db } from "../../config/Firebase";
-// import { useAuth } from "../../config/AuthContext";
-// import {
-//   onSnapshot,
-//   collection,
-//   where,
-//   query,
-//   orderBy,
-// } from "firebase/firestore";
 import MainSectionComp from "../ui/MainSectionComp";
 import Main_Firstsection from "../ui/Main_Firstsection";
 import { useNavigate } from "react-router-dom";
@@ -23,7 +13,6 @@ const Main = () => {
   const navigate = useNavigate();
   const { visible, observerRef } = useObserver();
   const { posts} = useTab();
-  const   Blog=[]
   const ButtonTabs = [
     "all",
     "quantom computing",

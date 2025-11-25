@@ -16,7 +16,15 @@ import FooterPart from "../components/ui/FooterPart";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "../components/layouts/Footer";
 import { db } from "../config/Firebase";
-import { deleteDoc, doc } from "firebase/firestore";
+import {
+  deleteDoc,
+  doc,
+  onSnapshot,
+  collection,
+  query,
+  where,
+  orderBy,
+} from "firebase/firestore";
 import { useProfile } from "../config/ProfileContext";
 import LoaderComp from "../components/ui/LoaderComp";
 import Modal from "../components/ui/Modal";
@@ -32,14 +40,13 @@ const ProfilePage = () => {
   const ProfileRef = useRef(null);
   const clickRef = useRef(null);
   const { visible, observerRef } = useObserver();
-  const isArray = false;
   // usecontext file
   const { handleImageChange, loads, User, blogpost, author } = useProfile();
+
   // to delete a blog post
   const deletePost = async (id) => {
     try {
       if (!author) {
-        setLoading(false);
         setOpen(false);
         return;
       }
@@ -52,10 +59,49 @@ const ProfilePage = () => {
           color: "green",
         },
       });
-      setLoading(false);
       setOpen(false);
     } catch (error) {
-      setLoading(false);
+      setOpen(false);
+      console.log(error);
+    }
+  };
+  // to get the news post
+  const [news, setNews] = useState([]);
+  useEffect(() => {
+    const fetchData = () => {
+      if (!author) return;
+        const document = query(collection(db, "news"),where("authorId", "==", author.uid));
+         const unsubscribe=onSnapshot(document,(snapshot)=>{
+             const snapdocs=snapshot.docs.map((doc)=>({
+              id:doc.id,
+              ...doc.data()
+             }))
+             setNews(snapdocs)
+         },(err)=>{
+          console.log(err)
+         })
+          return ()=>unsubscribe()
+    }
+        fetchData()
+  }, [author]);
+  // to delete news post
+  const deleteNewsPost = async (id) => {
+    try {
+      if (!author) {
+        setOpen(false);
+        return;
+      }
+      const deletedocs = doc(db, "news", id);
+      await deleteDoc(deletedocs);
+      toast.success("news post deleted", {
+        style: {
+          textTransform: "capitalize",
+          backgroundColor: "#1e1e1e",
+          color: "green",
+        },
+      });
+      setOpen(false);
+    } catch (error) {
       setOpen(false);
       console.log(error);
     }
@@ -64,7 +110,7 @@ const ProfilePage = () => {
   const styles = `transition-all ease-in-out duration-200 ${
     open ? "animate-movement" : "animate-reverse"
   }`;
-
+  // to track the mapping of the news page
   return (
     <>
       {loads ? <LoaderComp /> : ""}
@@ -127,7 +173,7 @@ const ProfilePage = () => {
               {User ? User.status : "add employee status"}
             </p>
             {/* for the profile email,country and phone number */}
-            <aside className="flex p-2 mt-3 sm:mt-5 text-xs sm:text-sm  sm:items-center justify-self-center justify-between text-slate-200 font-semibold gap-3 w-fit lg:w-[30rem] flex-col sm:flex-row">
+            <aside className="flex p-2 mt-3 sm:mt-5 text-ss sm:text-xs  sm:items-center justify-self-center justify-between text-slate-200 font-semibold gap-3 w-fit lg:w-[30rem] flex-col sm:flex-row">
               <p>{User ? User.email : "add email"}</p>
               <p>{User ? `${User.phone_number}` : " add phone"}</p>
               <p>{User ? User.nationality : "add nationality"}</p>
@@ -135,7 +181,7 @@ const ProfilePage = () => {
           </div>
           <Link
             to={"/personalinfo"}
-            className="text-sm lg:text-lg font-medium text-slate-300 lg:p-3 transition-all ease duration-100 active:text-yellow-400  mr-3 lg:mr-0"
+            className="text-sm lg:text-md font-medium text-slate-300 lg:p-3 transition-all ease duration-100 active:text-yellow-400  mr-3 lg:mr-0"
           >
             edit profile
           </Link>
@@ -145,19 +191,19 @@ const ProfilePage = () => {
         <section className="h-fit justify-center flex flex-col sm:flex-row bg-[#141414] py-2 ">
           {/* for the blog post creation */}
           <div className=" px-2 py-2 border-b-1 border-[#1e1e1e] sm:w-[25rem] md:w-[16rem]">
-            <LuNotebookText
-              className="xs:text-3xl sm:text-3xl md:text-4xl  text-slate-300 mb-2"
-              onClick={() => navigate("/createPost")}
-            />
-            <Link
-              to={"/createPost"}
-              className="text-sm  md:text-md text-slate-300 transition-all ease duration-200 active:text-yellow-400 p-2"
-            >
-              create a new blog post
-            </Link>
+            <LuNotebookText className="xs:text-3xl sm:text-3xl md:text-4xl  text-slate-300 mb-2" />
+            <p className="text-sm  md:text-md text-slate-300 transition-all ease duration-200 active:text-yellow-400 p-2">
+              create a new post
+            </p>
             <aside className="flex p-2 mt-3 sm:mt-5 text-xs md:text-sm justify-between text-slate-300 font-semibold w-[fit] sm:w-[10rem] md:w-[14rem] gap-2">
-              <AppButton BtnText={"blog"} />
-              <AppButton BtnText={"news"} />
+              <AppButton
+                BtnText={"blog"}
+                BtnFunction={() => navigate("/createPost")}
+              />
+              <AppButton
+                BtnText={"news"}
+                BtnFunction={() => navigate("/createnewspost")}
+              />
               <AppButton BtnText={"podcasts"} />
             </aside>
           </div>
@@ -169,6 +215,9 @@ const ProfilePage = () => {
             data-aos-easing="ease-in-out"
             ref={observerRef}
           >
+            <h1 className="p-2 font-bold text-xs sm:text-sm lg:text-lg bg-[#1e1e1e]">
+              blogs
+            </h1>
             {blogpost.length > 0 ? (
               <>
                 {blogpost.map((item) => (
@@ -234,6 +283,78 @@ const ProfilePage = () => {
               </>
             )}
           </div>
+          {/* for the news post */}
+
+          <aside
+            className="sm:w-[50rem] p-1.5 border-l-1 border-[#1e1e1e] bg-[#141414]"
+            ref={observerRef}
+            data-aos={visible ? "fade-left" : "fade-right"}
+            data-aos-delay="1700"
+            data-aos-easing="ease-in-out"
+          >
+            <h1 className="font-bold text-xs sm:text-sm lg:text-lg p-2 bg-[#1e1e1e]">
+              news{" "}
+            </h1>
+            {news.length > 0 ? (
+              <>
+                {news.map((item) => (
+                  <section
+                    className="flex ml-3 xs:h-[14rem] sm:h-[14rem]  justify-between items-center sm:gap-2 xs:flex-col sm:flex-row capitalize"
+                    key={item.id}
+                  >
+                    <aside>
+                      <p className="text-gray-400 font-light xs:text-ss sm:text-xs md:text-sm py-1.5 ">
+                        {item.createdAt}
+                      </p>
+                      <h2 className="flex justify-between items-center gap-6 py-2 sm:text-md lg:text-lg">
+                        {item.title}
+                        {/* to open the delete modal */}
+                        <aside
+                          className=" h-[2.5rem] w-[2.5rem] flex justify-center items-center rounded-full duration-200 transition-all ease active:bg-[#1e1e1e]"
+                          onClick={() => setOpen(true)}
+                        >
+                          <BsThreeDotsVertical className="transition-all duration-200 ease text-lg active:text-slate-500 " />
+                          {/* hidden button */}
+                          <button
+                            className="hidden"
+                            ref={clickRef}
+                            onClick={() => deleteNewsPost(item.id)}
+                          >
+                            a click function
+                          </button>
+                        </aside>
+                      </h2>
+                      <p
+                        className="xs:text-ss md:text-xs text-gray-400 font-light py-3"
+                        dangerouslySetInnerHTML={{
+                          __html:
+                            item.content.length > 100
+                              ? item.content.slice(0, 100) + "..."
+                              : item.content,
+                        }}
+                      ></p>
+                      {/* => the likes,comment and share btns */}
+                    </aside>
+                    <AppButton
+                      width={true}
+                      BtnFunction={() => navigate(`/news/${item.id}`)}
+                      BtnText="view news"
+                      iconArrow={true}
+                    />
+                  </section>
+                ))}
+              </>
+            ) : (
+              <>
+                {/* for no news post */}
+                <section className="flex ml-3 xs:h-[14rem] sm:h-[14rem]  justify-center items-center capitalize bg-[#141414]">
+                  <h2 className="py-2 text-sm sm:text-md lg:text-lg">
+                    no news post{" "}
+                  </h2>
+                </section>
+              </>
+            )}
+          </aside>
         </section>
 
         {/* for the footer */}

@@ -34,7 +34,6 @@ const Form = ({
   formref
 }) => {
 
-
   const config = useMemo(
     () => ({
       height: 400,
@@ -44,7 +43,7 @@ const Form = ({
         color: "#f0f0f0",
       },
       readonly: false, // all options from https://xdsoft.net/jodit/docs/,
-      placeholder: placeholder || "Start writing your next blog....",
+      placeholder: placeholder || "Start writing your next article....",
     }),
     [placeholder]
   );

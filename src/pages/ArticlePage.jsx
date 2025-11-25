@@ -1,12 +1,10 @@
 import React from "react";
 import { useRef } from "react";
-import NavBar from "../components/layouts/NavBar";
 import Form from "../components/form/Form";
 import { Link, useNavigate } from "react-router-dom";
 import { FaArrowCircleLeft } from "react-icons/fa";
 import { useProfile } from "../config/ProfileContext";
 import LoaderComp from "../components/ui/LoaderComp";
-import Footer from "../components/layouts/Footer";
 import FooterPart from "../components/ui/FooterPart";
 const ArticlePage = () => {
   const editorRef=useRef(null)

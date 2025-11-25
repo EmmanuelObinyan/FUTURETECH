@@ -29,7 +29,7 @@ const FormheadText = ({textShow}) => {
       textShow === "blog" &&
     (
         <p className='capitalize text-center font-semibold font-inter xs:text-md sm:text-lg md:text-xl lg:text-2xl py-2'>
-        create a new blog post
+        create a blog post
     </p>
     )
    }
@@ -38,6 +38,13 @@ const FormheadText = ({textShow}) => {
     (
         <p className='capitalize text-center font-semibold font-inter xs:text-md sm:text-lg md:text-xl lg:text-2xl py-2'>
         edit personal profile
+    </p>
+    )
+   }
+     { textShow === "news" &&
+    (
+        <p className='capitalize text-center font-semibold font-inter xs:text-md sm:text-lg md:text-xl lg:text-2xl py-2'>
+        create a  news post
     </p>
     )
    }
