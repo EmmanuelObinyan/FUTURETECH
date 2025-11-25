@@ -193,7 +193,7 @@ const ProfilePage = () => {
           <div className=" px-2 py-2 border-b-1 border-[#1e1e1e] sm:w-[25rem] md:w-[16rem]">
             <LuNotebookText className="xs:text-3xl sm:text-3xl md:text-4xl  text-slate-300 mb-2" />
             <p className="text-sm  md:text-md text-slate-300 transition-all ease duration-200 active:text-yellow-400 p-2">
-              create a new post
+              create posts
             </p>
             <aside className="flex p-2 mt-3 sm:mt-5 text-xs md:text-sm justify-between text-slate-300 font-semibold w-[fit] sm:w-[10rem] md:w-[14rem] gap-2">
               <AppButton
