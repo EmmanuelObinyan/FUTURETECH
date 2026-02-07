@@ -1,21 +1,78 @@
 import React from "react";
 import NavBar from "../components/layouts/NavBar";
 import TextHeader from "../components/ui/TextHeader";
+import { useMediaQuery } from "react-responsive";
 import ResourceCard from "../components/ui/ResourceCard";
 import MainSectionComp from "../components/ui/MainSectionComp";
 import SectionCard from "../components/ui/SectionCard";
 import PodCastCard from "../components/ui/PodCastCard";
 import cyberAI from "../assets/cyberAI.mp4";
 import visualAI from "../assets/visualAI.mp4";
+import video1 from "../assets/video1.mp4";
+import video2 from "../assets/video2.mp4";
+import video3 from "../assets/video3.mp4";
+import video4 from "../assets/video4.mp4";
+import video5 from "../assets/video5.mp4";
+import video6 from "../assets/video6.mp4";
 import { useObserver } from "../config/ObserverContext";
 import { useEffect } from "react";
 import Aos from "aos";
 import "aos/dist/aos.css";
+import Video from "../components/ui/Video";
+import AppButton from "../components/ui/AppButton";
+import FooterPart from "../components/ui/FooterPart";
+import Footer from "../components/layouts/Footer";
 const PodcastsPage = () => {
   useEffect(() => {
     Aos.init();
   }, []);
   const { visible, observerRef } = useObserver();
+  const isMobile = useMediaQuery({ query: "(max-width:910px)" });
+  // mapping video
+  const videoArray = [
+    {
+      video: video1,
+      videoheadtext: "AI in entertainment",
+      videodelay: "700",
+      videotext:
+        "david smith as they explore the influence of AI in the entertainment industry",
+    },
+    {
+      video: video4,
+      videoheadtext: "AI in healthcare",
+      videodelay: "1200",
+      videotext:
+        "Dr.lisa adams discusses how AI is revolutionizing healthcare, from diagnostic tools to patient care",
+    },
+    {
+      video: video2,
+      videoheadtext: "AI Ethics",
+      videodelay: "1600",
+      videotext:
+        "explore the ethical dilemmas and considerations surrounding AI with gust speaker Dr.Micheal turner",
+    },
+    {
+      video: video3,
+      videoheadtext: "machine learning explained",
+      videodelay: "1800",
+      videotext:
+        "dive into the intricacies of machine learning with AI expert Sarah davis,in this episode",
+    },
+    {
+      video: video5,
+      videoheadtext: "AI and the future of work",
+      videodelay: "2000",
+      videotext:
+        "Dr.olivia white joins john parker to discuss the evolving role of AI in the workplace",
+    },
+    {
+      video: video6,
+      videoheadtext: "AI in education",
+      videodelay: "2200",
+      videotext:
+        "explore the role of AI in education as emily turner discusses how AI is transforming he learning experience",
+    },
+  ];
   return (
     <>
       <NavBar />
@@ -113,6 +170,39 @@ const PodcastsPage = () => {
           body_text={"latest podcast episodes"}
         />
         {/* for the multiple videos */}
+        <div
+          className={`bg-[#141414] grid grid-cols-1 sm:grid-cols-2 ${
+            isMobile ? " place-items-center md:grid-cols-2 lg:grid-cols-3" : "md:grid-cols-3"
+          }  `}
+        >
+          {videoArray.map((item, index) => (
+            <aside
+              key={index}
+              className=" p-3 sm:w-[20rem] md:w-[18rem] lg:w-[90%] h-fit"
+              ref={observerRef}
+              data-aos-easing="ease-in-out"
+              data-aos-duration="1500"
+              data-aos-delay={item.videodelay}
+              data-aos={visible ? "fade-left" : "fade-right"}
+            >
+              <Video video_item={item.video} />
+              <h2 className="text-white font-semibold  text-smsm:text-md lg:text-lg my-3 p-3">
+                {item.videoheadtext}
+              </h2>
+              <p className="text-slate-400 font-medium  text-ss sm:text-xs lg:text-sm my-4 p-3">
+                {item.videotext}
+              </p>
+              <AppButton
+                wide={true}
+                BtnText={"listen podcast"}
+                iconArrow={true}
+              />
+            </aside>
+          ))}
+        </div>
+        {/* footer partt  */}
+         <FooterPart/>
+         <Footer/>
       </section>
     </>
   );

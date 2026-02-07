@@ -7,7 +7,7 @@ import { useObserver } from "../../config/ObserverContext";
 import AppButton from "../ui/AppButton";
 const Footer = () => {
   const { visible, observerRef } = useObserver();
-  const { handleLogout } = useAuth();
+  const { handleLogout, author } = useAuth();
   const home = [
     {
       link: "*",
@@ -31,7 +31,7 @@ const Footer = () => {
     },
     {
       link: "/login",
-      name: "log out",
+      name: author ? "sign out" : "sign in",
     },
   ];
   const News = [
@@ -74,7 +74,10 @@ const Footer = () => {
               <Link
                 to={item.link}
                 className="cursor-pointer xs:text-ss sm:text-xs lg:text-sm text-gray-500 "
-             onClick={item.link === "/login" ? ()=>handleLogout():undefined} >
+                onClick={
+                  item.link === "/login" ? () => handleLogout() : undefined
+                }
+              >
                 <li className="py-1.5">{item.name}</li>
               </Link>
             </ul>
@@ -93,9 +96,7 @@ const Footer = () => {
           </h2>
           {News.map((item, index) => (
             <ul key={index}>
-              <li
-                className="cursor-pointer py-1.5 xs:text-ss sm:text-xs lg:text-sm text-gray-500 "
-              >
+              <li className="cursor-pointer py-1.5 xs:text-ss sm:text-xs lg:text-sm text-gray-500 ">
                 {item}
               </li>
             </ul>
@@ -171,7 +172,7 @@ const Footer = () => {
           </figure>
         </div>
         <p className="text-gray-500 xs:text-xs lg:text-sm ">
-          @2024 futuretech.all rights reserved
+          @2026 futuretech.all rights reserved
         </p>
       </aside>
     </div>

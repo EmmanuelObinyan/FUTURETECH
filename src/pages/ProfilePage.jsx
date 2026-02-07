@@ -23,7 +23,6 @@ import {
   collection,
   query,
   where,
-  orderBy,
 } from "firebase/firestore";
 import { useProfile } from "../config/ProfileContext";
 import LoaderComp from "../components/ui/LoaderComp";
@@ -142,7 +141,7 @@ const ProfilePage = () => {
           {/* profile image */}
           <aside className="xs:h-[8rem] sm:h-[9rem] md:h-[10rem] lg:h-[15rem] xs:w-[8rem] sm:w-[9rem] md:w-[10rem] lg:w-[15rem] rounded-full relative border-1 ">
             <img
-              src={User?.profilePic || "/avatarpic.webp"}
+              src={User? User.profilepic : "/avatarpic.webp"}
               alt=""
               className="h-full rounded-full w-full object-center"
             />
@@ -337,7 +336,7 @@ const ProfilePage = () => {
                     </aside>
                     <AppButton
                       width={true}
-                      BtnFunction={() => navigate(`/news/${item.id}`)}
+                      BtnFunction={() => navigate(`/newspost/${item.id}`)}
                       BtnText="view news"
                       iconArrow={true}
                     />

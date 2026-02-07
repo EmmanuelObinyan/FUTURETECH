@@ -1,13 +1,29 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/layouts/NavBar";
 import TabCard from "../components/ui/TabCard";
 import TabLayout from "../components/ui/TabLayout";
+// import { Navigation, Pagination,Autoplay } from "swiper/modules";
+// import {Swiper, SwiperSlide} from "swiper/react";
+// import "swiper/css";
+// import "swiper/css/pagination";
+// import "swiper/css/navigation";
+// for the category images
+import AI from "../assets/aiintelligence.jpg";
+import environment from "../assets/environment.jpg";
+import biotech from "../assets/biotech.jpg";
+import health from "../assets/newscol3.png";
+import politics from "../assets/newcol1.png";
+import space from "../assets/space.jpg";
+import sports from "../assets/spacebooks.png";
+import tech from "../assets/newscol2.png";
+import quantum from "../assets/quantumpapers.png";
+import energy from "../assets/energy.jpg";
+// the end of the images
+import { db } from "../config/Firebase";
+import { getDocs, collection } from "firebase/firestore";
 import FooterPart from "../components/ui/FooterPart";
 import Footer from "../components/layouts/Footer";
-import pic1 from "../assets/newcol1.png";
-import pic2 from "../assets/newscol2.png";
-import pic3 from "../assets/newscol3.png";
 import { useTab } from "../config/TabContext";
 import TextHeader from "../components/ui/TextHeader";
 import { useObserver } from "../config/ObserverContext";
@@ -33,10 +49,30 @@ const NewsPage = () => {
     "environment",
     "sports",
   ];
+  // for the swiper js
+  // for the news categories
+  const [newpost, setNewpost] = useState([]);
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        const document = collection(db, "news");
+        const dataSnapshot = await getDocs(document);
+        const postList = dataSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        
+        setNewpost(postList);
+      } catch (error) {
+        console.log("error fetching post:", error);
+      }
+    };
+    fetchPost();
+  }, []);
   return (
     <>
       <Navbar />
-      <section className="xs:mt-26 sm:mt-32 lg:mt-37">
+      <section className="xs:mt-26 sm:mt-32 lg:mt-37 font-inter">
         {/* revisit page to fix the appropriate picture and the text for the news page */}
         <TextHeader
           news_header="todays headline: stay informed"
@@ -45,33 +81,55 @@ const NewsPage = () => {
         />
         <NewsPost />
         <section
-          className="grid xs:grid-cols-1 sm:grid-cols-3 place-items-center h-fit bg-[#141414] sm:p-2 md:p-4 lg:p-6 md:gap-3 lg:gap-0 w-full"
+          className={`${
+            newpost.length > 0
+              ? "grid xs:grid-cols-1 sm:grid-cols-3 place-items-center sm:p-2 md:p-4 lg:p-6 md:gap-3 lg:gap-0 h-fit "
+              : "h-[7rem] flex mt-5 justify-center items-center"
+          }  bg-[#141414]  w-full`}
           ref={observerRef}
           data-aos={visible ? "fade-down" : "fade-up"}
           data-aos-duration="2000"
           data-aos-easing="ease-in-out"
         >
-          <NewsCard
-            news_image={pic1}
-            news_title="a decisive victory for progressive policies"
-            category="politics"
-            likeCount={2.2 + "k"}
-            shareCount={60}
-          />
-          <NewsCard
-            news_image={pic2}
-            news_title="tech giants unveil cutting-edge AI innovations"
-            category="technology"
-            likeCount={6 + "k"}
-            shareCount={92}
-          />
-          <NewsCard
-            news_image={pic3}
-            news_title="COVID-19 variants"
-            category="health"
-            likeCount={10 + "k"}
-            shareCount={124}
-          />
+          {newpost.length > 0 ? (
+            newpost.map((post) => (
+              <NewsCard
+                key={post.id}
+                news_image={ 
+                   post.category === "technology"
+                    ? tech
+                    : post.category === "politics"
+                    ? politics
+                    : post.category === "health"
+                    ? health
+                    : post.category === "environment"
+                    ? environment
+                    : post.category === "sports"
+                    ? sports
+                    : post.category === "space exploration"
+                    ? space
+                    : post.category === "biotechnology"
+                    ? biotech
+                    : post.category === "renewable energy"
+                    ? energy
+                    : post.category === "quantom computing"
+                    ? quantum
+                    : post.category === "aiintelligence" 
+                    ? AI : null
+
+                }
+                news_title={post.title}
+                category={post.category}
+                BtnFunction={() => navigate(`/newspost/${post.id}`)} 
+                
+              />
+            ))
+          ) : (
+            <p className="font-semibold text-slate-300 p-2 italic text-sm md:text-lg capitalize">
+              no news post
+            </p>
+          )}
+            
         </section>
         <MainSectionComp
           top_text="welcome to our news hub"

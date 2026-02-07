@@ -27,7 +27,7 @@ const TabLayout = ({ blog }) => {
         autoplay={{ delay: 2000 }}
         slidesPerView={1}
         spaceBetween={10}
-        speed={2000}
+        speed={1000}
         className="h-[20rem]"
       >
         <div className="border-b-1  pt-2 justify-self-center border-[#1e1e1e] p-2 flex justify-around xs:flex-col md:flex-row capitalize xs:w-[90%] md:w-full">
@@ -44,7 +44,7 @@ const TabLayout = ({ blog }) => {
                 key={item.id}
               >
                 <ProfileCard
-                  author_image={item.profilepic || '/avatarpic.webp'}
+                  author_image={item.photo || '/avatarpic.webp'}
                   author={item.author}
                   categoryText={item.category}
                 />
@@ -63,15 +63,6 @@ const TabLayout = ({ blog }) => {
                             : item.content,
                       }}
                     ></p>
-                    {/* <p className="xs:text-ss md:text-xs text-gray-400 font-light py-3">
-                      {`${
-                        item.sub_title.length > 90
-                          ? item.sub_title.slice(0, 90)
-                          : item.sub_title
-                      } ${item.sub_title.length > 100 ? "..." : ""}`}
-                    </p> */}
-
-                    {/* => the likes,comment and share btns */}
                     <div className="flex items-center gap-3 py-3">
                       <LikeBtn likeCount={item.likes} Like={item.likes} />
                       <CommentBtn commentCount={item.comment} />

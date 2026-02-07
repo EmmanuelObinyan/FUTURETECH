@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Google from "../../assets/googlebutton.png";
+import Google from "../../assets/devicon_google.png";
 import { useAuth } from "../../config/AuthContext";
 const Button = ({ BtnText, showBlue=true,handleSubmit,disable, googleShow = false, display }) => {
   const{handleGoogle}=useAuth()

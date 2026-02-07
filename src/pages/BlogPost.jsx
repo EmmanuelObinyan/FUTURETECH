@@ -1,10 +1,6 @@
 import React, { lazy, useEffect, useState } from "react";
-import { toast } from "sonner";
 import NavBar from "../components/layouts/NavBar";
-import pic1 from "../assets/newcol1.png";
 import { useMediaQuery } from "react-responsive";
-import pic2 from "../assets/newscol2.png";
-import pic3 from "../assets/newscol3.png";
 // for the category images
 import AI from "../assets/aiintelligence.jpg";
 import environment from "../assets/environment.jpg";
@@ -23,7 +19,15 @@ import Aos from "aos";
 import { db } from "../config/Firebase";
 import { useAuth } from "../config/AuthContext";
 import { useProfile } from "../config/ProfileContext";
-import { getDoc, doc, onSnapshot} from "firebase/firestore";
+import {
+  getDoc,
+  doc,
+  collection,
+  onSnapshot,
+  getDocs,
+  where,
+  query,
+} from "firebase/firestore";
 import { useParams } from "react-router-dom";
 import "aos/dist/aos.css";
 import FooterPart from "../components/ui/FooterPart";
@@ -50,7 +54,7 @@ const BlogPost = () => {
   const [loading, setLoading] = useState(true);
   const [blog, setBlog] = useState(null);
   // to fetch the blog post
-  useEffect(() => {;
+  useEffect(() => {
     const fetchBlog = async () => {
       setLoading(true);
       try {
@@ -60,8 +64,7 @@ const BlogPost = () => {
         if (snapshot.exists()) {
           const blogData = snapshot.data();
           setBlog(blogData);
-              }
-         else {
+        } else {
           console.log("Blog document does not exist");
           setBlog(null);
         }
@@ -76,10 +79,10 @@ const BlogPost = () => {
     fetchBlog();
   }, [id]);
   // to get the liked data
-const[liked,setLiked]=useState(false);
-const[likedcount,setLikedcount]=useState(0);
-  useEffect(()=>{
-       if (!author) return;
+  const [liked, setLiked] = useState(false);
+  const [likedcount, setLikedcount] = useState(0);
+  useEffect(() => {
+    if (!author) return;
 
     const likeRef = doc(db, "blogs", id, "likes", author.uid);
     const unsub = onSnapshot(likeRef, (snap) => {
@@ -87,17 +90,39 @@ const[likedcount,setLikedcount]=useState(0);
     });
 
     return () => unsub();
-  },[id,author,blog]);
+  }, [id, author, blog]);
 
   // to get the total likes count from the blog document
   useEffect(() => {
-    const blogRef = doc(db, "blogs",id);
+    const blogRef = doc(db, "blogs", id);
     const unsub = onSnapshot(blogRef, (snap) => {
       setLikedcount(snap.data()?.likes || 0);
     });
     return () => unsub();
   }, [id]);
-  
+
+  // to get similar news post
+  const [news, setNews] = useState([]);
+  useEffect(() => {
+    const fetchNews = async () => {
+      if (!blog) return;
+      try {
+        const document = collection(db, "news");
+        const q = query(document, where("category", "==", blog?.category));
+        const newsSnapshot = await getDocs(q);
+        const search = newsSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        console.log(search);
+        setNews(search);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchNews();
+  }, [blog]);
+
   return (
     <>
       {loading ? <LoaderComp /> : ""}
@@ -107,126 +132,40 @@ const[likedcount,setLikedcount]=useState(0);
           <section className="h-fit relative">
             {/* for category images */}
             <img
-              src={blog?.category === "environment" && environment}
+              src={
+                blog?.category === "environment"
+                    ? environment
+                      : blog?.category === "aiintelligence"
+                        ? AI
+                        : blog?.category === "biotechnology"
+                          ? biotech
+                          : blog?.category === "health"
+                            ? health
+                            : blog?.category === "politics"
+                              ? politics
+                              : blog?.category === "space exploration"
+                                ? space
+                                : blog?.category === "sports"
+                                  ? sports
+                                  : blog?.category === "technology"
+                                    ? tech
+                                    : blog?.category === "quantom computing"
+                                      ? quantum
+                                      : blog?.category === "renewable energy"
+                                        ? energy
+                                        : null
+              }
               loading={lazy}
               alt=""
               ref={observerRef}
               data-aos-duration="1000"
               data-aos-easing="ease-in-out"
               data-aos={visible ? "fade-in" : "fade-out"}
-              className={`xs:h-[11.5rem] sm:h-[18rem] md:h-[20rem] lg:h-[35rem] w-full object-cover ${
-                blog?.category === "environment" ? "" : "hidden"
-              } `}
+              className={
+                "xs:h-[11.5rem] sm:h-[18rem] md:h-[20rem] lg:h-[35rem] w-full object-cover "
+              }
             />
-            <img
-              src={blog?.category === "aiintelligence" && AI}
-              loading={lazy}
-              alt=""
-              ref={observerRef}
-              data-aos-duration="1000"
-              data-aos-easing="ease-in-out"
-              data-aos={visible ? "fade-in" : "fade-out"}
-              className={`xs:h-[11.5rem] sm:h-[18rem] md:h-[20rem] lg:h-[35rem] w-full object-cover ${
-                blog?.category === "aiintelligence" ? "" : "hidden"
-              }`}
-            />
-            <img
-              src={blog?.category === "biotechnology" && biotech}
-              loading={lazy}
-              alt=""
-              ref={observerRef}
-              data-aos-duration="1000"
-              data-aos-easing="ease-in-out"
-              data-aos={visible ? "fade-in" : "fade-out"}
-              className={`xs:h-[11.5rem] sm:h-[18rem] md:h-[20rem] lg:h-[35rem] w-full object-cover ${
-                blog?.category === "biotechnology" ? "" : "hidden"
-              }`}
-            />
-            <img
-              src={blog?.category === "health" && health}
-              loading={lazy}
-              alt=""
-              ref={observerRef}
-              data-aos-duration="1000"
-              data-aos-easing="ease-in-out"
-              data-aos={visible ? "fade-in" : "fade-out"}
-              className={`xs:h-[11.5rem] sm:h-[18rem] md:h-[20rem] lg:h-[35rem] w-full object-cover ${
-                blog?.category === "health" ? "" : "hidden"
-              }`}
-            />
-            <img
-              src={blog?.category === "politics" && politics}
-              loading={lazy}
-              alt=""
-              ref={observerRef}
-              data-aos-duration="1000"
-              data-aos-easing="ease-in-out"
-              data-aos={visible ? "fade-in" : "fade-out"}
-              className={`xs:h-[11.5rem] sm:h-[18rem] md:h-[20rem] lg:h-[35rem] w-full object-cover ${
-                blog?.category === "politics" ? "" : "hidden"
-              }`}
-            />
-            <img
-              src={blog?.category === "space-exploration" && space}
-              loading={lazy}
-              alt=""
-              ref={observerRef}
-              data-aos-duration="1000"
-              data-aos-easing="ease-in-out"
-              data-aos={visible ? "fade-in" : "fade-out"}
-              className={`xs:h-[11.5rem] sm:h-[18rem] md:h-[20rem] lg:h-[35rem] w-full object-cover ${
-                blog?.category === "space-exploration" ? "" : "hidden"
-              }`}
-            />
-            <img
-              src={blog?.category === "sports" && sports}
-              loading={lazy}
-              alt=""
-              ref={observerRef}
-              data-aos-duration="1000"
-              data-aos-easing="ease-in-out"
-              data-aos={visible ? "fade-in" : "fade-out"}
-              className={`xs:h-[11.5rem] sm:h-[18rem] md:h-[20rem] lg:h-[35rem] w-full object-cover ${
-                blog?.category === "sports" ? "" : "hidden"
-              }`}
-            />
-            <img
-              src={blog?.category === "technology" && tech}
-              loading={lazy}
-              alt=""
-              ref={observerRef}
-              data-aos-duration="1000"
-              data-aos-easing="ease-in-out"
-              data-aos={visible ? "fade-in" : "fade-out"}
-              className={`xs:h-[11.5rem] sm:h-[18rem] md:h-[20rem] lg:h-[35rem] w-full object-cover ${
-                blog?.category === "technology" ? "" : "hidden"
-              }`}
-            />
-            <img
-              src={blog?.category === "quantum-computing" && quantum}
-              loading={lazy}
-              alt=""
-              ref={observerRef}
-              data-aos-duration="1000"
-              data-aos-easing="ease-in-out"
-              data-aos={visible ? "fade-in" : "fade-out"}
-              className={`xs:h-[11.5rem] sm:h-[18rem] md:h-[20rem] lg:h-[35rem] w-full object-cover ${
-                blog?.category === "quantum-computing" ? "" : "hidden"
-              }`}
-            />
-            <img
-              src={blog?.category === "renewable-energy" && energy}
-              loading={lazy}
-              alt=""
-              ref={observerRef}
-              data-aos-duration="1000"
-              data-aos-easing="ease-in-out"
-              data-aos={visible ? "fade-in" : "fade-out"}
-              className={`xs:h-[11.5rem] sm:h-[18rem] md:h-[20rem] lg:h-[35rem] w-full object-cover ${
-                blog?.category === "renewable-energy" ? "" : "hidden"
-              }`}
-            />
-            {/* for the blog post introduction */}
+
             <p className="font-bold xs:text-2xl sm:text-3xl md:text-4xl lg:text-6xl absolute xs:bottom-0 sm:bottom-2 md:bottom-3 lg:bottom-5 flex justify-self-center xs:p-1 md:p-2 w-fit text-center ">
               {blog?.title}
             </p>
@@ -275,9 +214,7 @@ const[likedcount,setLikedcount]=useState(0);
                 <LikeBtn
                   likeCount={likedcount}
                   Like={liked}
-                  handleClick={() =>
-                    handleLike(id)
-                  }
+                  handleClick={() => handleLike(id)}
                 />
                 <CommentBtn commentCount={blog?.comment} />
                 <ShareBtn shareCount={""} />
@@ -316,33 +253,53 @@ const[likedcount,setLikedcount]=useState(0);
           similar news
         </p>
         <section
-          className="grid xs:grid-cols-1 sm:grid-cols-3 place-items-center h-fit bg-[#141414] sm:p-2 md:p-4 lg:p-6 md:gap-3 lg:gap-0 w-full"
+          className={`${
+            news.length > 0
+              ? "grid xs:grid-cols-1 sm:grid-cols-3 place-items-center sm:p-2 md:p-4 lg:p-6 md:gap-3 lg:gap-0 h-fit "
+              : "h-[7rem] flex mt-5 justify-center items-center"
+          }  bg-[#141414]  w-full font-inter`}
           ref={observerRef}
           data-aos-easing="ease-in-out"
           data-aos={visible ? "fade-down" : "fade-up"}
           data-aos-duration="2000"
         >
-          <NewsCard
-            news_image={pic1}
-            news_title="a decisive victory for progressive policies"
-            category="politics"
-            likeCount={2.2 + "k"}
-            shareCount={60}
-          />
-          <NewsCard
-            news_image={pic2}
-            news_title="tech giants unveil cutting-edge AI innovations"
-            category="technology"
-            likeCount={6 + "k"}
-            shareCount={92}
-          />
-          <NewsCard
-            news_image={pic3}
-            news_title="COVID-19 variants"
-            category="health"
-            likeCount={10 + "k"}
-            shareCount={124}
-          />
+          {news.length > 0 ? (
+            news.map((post) => (
+              <NewsCard
+                key={post.id}
+                news_image={
+                  post.category === "technology"
+                    ? tech
+                    : post.category === "politics"
+                      ? politics
+                      : post.category === "health"
+                        ? health
+                        : post.category === "environment"
+                          ? environment
+                          : post.category === "sports"
+                            ? sports
+                            : post.category === "space exploration"
+                              ? space
+                              : post.category === "biotechnology"
+                                ? biotech
+                                : post.category === "renewable energy"
+                                  ? energy
+                                  : post.category === "quantom computing"
+                                    ? quantum
+                                    : post.category === "aiintelligence"
+                                      ? AI
+                                      : null
+                }
+                news_title={post.title}
+                category={post.category}
+                BtnFunction={() => navigate(`/newspost/${post.id}`)}
+              />
+            ))
+          ) : (
+            <p className="font-semibold text-slate-300 p-2 italic text-sm md:text-lg capitalize">
+              no similar news post
+            </p>
+          )}
         </section>
         {/* for the footer section */}
         <FooterPart />

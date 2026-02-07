@@ -1,10 +1,11 @@
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import AppButton from "../ui/AppButton";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { BsArrowUpRight } from "react-icons/bs";
 import { useMediaQuery } from "react-responsive";
 import { BiMenuAltRight } from "react-icons/bi";
+import { useAuth } from "../../config/AuthContext";
 import { FaX } from "react-icons/fa6";
 import { useObserver } from "../../config/ObserverContext";
 import Aos from "aos";
@@ -12,7 +13,8 @@ import "aos/dist/aos.css";
 import Marquee from "react-fast-marquee";
 import logoimg from "../../assets/desktoplogo.png";
 const NavBar = () => {
-  const navigate=useNavigate()
+  const navigate = useNavigate();
+  const { author,handleLogout } = useAuth();
   const [show, setShow] = useState(false);
   useEffect(() => {
     if (show) {
@@ -29,6 +31,7 @@ const NavBar = () => {
     { name: "resources", link: "/resources" },
     { name: "profile", link: "/profile" },
     { name: "settings", link: "/settings" },
+    { name: author ? "sign out" : "sign in", link: "/login" },
   ];
   useEffect(() => {
     Aos.init();
@@ -38,7 +41,7 @@ const NavBar = () => {
     <nav className="flex z-40 text-white flex-col w-full font-inter capitalize fixed top-0">
       {/* for marquee container */}
       <div className="py-4 mt-1 bg-[#141414]">
-        <Marquee pauseOnClick pauseOnHover className="opacity-70"  speed={40}> 
+        <Marquee pauseOnClick pauseOnHover className="opacity-70" speed={40}>
           <p className="xs:mx-8 sm:mx-auto items-center flex w-fit xs:text-ss sm:text-xs md:text-sm lg:text-md">
             subscribe to our newsletter for new & latest blogs and resources
             <span>
@@ -78,7 +81,7 @@ const NavBar = () => {
             <Link to={"/podcasts"}>
               <li className="p-2 rounded-md duration-200 transition-all ease active:bg-[#141414]">
                 podcasts
-              </li> 
+              </li>
             </Link>
             {/* resources */}
             <Link to={"/resources"}>
@@ -103,7 +106,15 @@ const NavBar = () => {
           ""
         )}
         {/* for the contact button */}
-        {!isMobile ? <AppButton BtnText="contact us" showColor={true} BtnFunction={()=>navigate('/contact')} /> : ""}
+        {!isMobile ? (
+          <AppButton
+            BtnText="contact us"
+            showColor={true}
+            BtnFunction={() => navigate("/contact")}
+          />
+        ) : (
+          ""
+        )}
         {/* for the mobile breakpoint */}
         {isMobile ? (
           <div className="">
@@ -121,8 +132,8 @@ const NavBar = () => {
                 onClick={() => setShow(false)}
               />
               {navs.map((item, index) => (
-                <Link key={index} to={item.link} >
-                  <li className="mt-3  capitalize xs:text-lg sm:text-lg font-semibold text-center  duration-200 transition-all ease active:text-yellow-400 p-2 rounded-lg " >
+                <Link key={index} to={item.link}>
+                  <li className="mt-3  capitalize xs:text-lg sm:text-lg font-semibold text-center  duration-200 transition-all ease active:text-yellow-400 p-2 rounded-lg " onClick={item.link === "sign out" || item.link === "sign in" ? ()=> handleLogout() : null}> 
                     {item.name}
                   </li>
                 </Link>

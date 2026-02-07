@@ -111,6 +111,7 @@ export const ProfileProvider = ({ children }) => {
       await setDoc(response, {
         authorId: author.uid, // Add the author's ID for lookups
         author: data.exists() ? data.data().fullname : null,
+        photo:data.exists() ? data.data().profilepic : null,
         title: blog.title,
         category: blog.category,
         content: content,
@@ -326,9 +327,10 @@ export const ProfileProvider = ({ children }) => {
           console.log(error + "no old pic skipping delete");
         }
       }
-      const imagename = `profile/${author.uid}/profile.png`;
+      const imagename = `profile/${author.uid}/profile.jpg`;
       const imageRef = ref(storageRef, imagename);
       await uploadBytes(imageRef, image);
+   
       const imageURL = await getDownloadURL(imageRef);
       // updating the image to firestore
       await updateDoc(getdocref, {
@@ -348,6 +350,7 @@ export const ProfileProvider = ({ children }) => {
       console.log(error);
     }
   };
+     
   // for the useeffect
   useEffect(() => {
     uploadImage();

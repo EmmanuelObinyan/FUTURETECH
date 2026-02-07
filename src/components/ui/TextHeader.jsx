@@ -23,7 +23,7 @@ const TextHeader = ({ news_header, news_text, margin = false }) => {
       </section>
       <section
         className={`w-fit md:-ml-[5%] ${
-          margin ? "lg:-ml-[9%]" : "lg:-ml-[12%] "
+          margin ? "lg:-ml-[7%]" : "lg:-ml-[12%] "
         }`}
       >
         <p

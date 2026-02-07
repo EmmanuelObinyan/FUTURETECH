@@ -2,7 +2,7 @@ import React from "react";
 import LikeBtn from "./LikeBtn";
 import ShareBtn from "./ShareBtn";
 import AppButton from "./AppButton";
-const NewsCard = ({ news_image,news_title, category, likeCount, shareCount }) => {
+const NewsCard = ({ news_image,news_title, category, likeCount, shareCount,BtnFunction }) => {
   return (
     <div className="text-white capitalize font-inter bg-[#141414] h-fit sm:w-[14rem] md:w-[18rem] lg:w-[27rem] p-2 ">
       <img
@@ -18,12 +18,9 @@ const NewsCard = ({ news_image,news_title, category, likeCount, shareCount }) =>
           {category}
         </p>
       </section>
-      <figure className="md:w-[fit] lg:w-[26rem] flex xs:flex-row sm:flex-col lg:flex-row  justify-between xs:items-center sm:items-start lg:items-center xs:px-2.5 sm:px-0">
-        <aside className="xs:w-[8rem] sm:w-[10.5rem]  lg:w-[8.5rem] justify-between xs:mr-7 sm:mr-0 flex sm:py-2 md:py-3 lg:py-0">
-          <LikeBtn Like={false} likeCount={likeCount} />
-          <ShareBtn shareCount={shareCount} />
-        </aside>
-        <AppButton wide={true} BtnText="read more" iconArrow={true} />
+      <figure className="md:w-[fit] lg:w-[26rem] flex justify-center xs:items-center  xs:px-2.5 sm:px-0">
+        
+        <AppButton wide={true} BtnText="read more" iconArrow={true} BtnFunction={BtnFunction} />
       </figure>
     </div>
   );
