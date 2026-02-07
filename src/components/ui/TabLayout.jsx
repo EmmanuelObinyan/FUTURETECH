@@ -2,7 +2,6 @@ import React from "react";
 import LikeBtn from "./LikeBtn";
 import ShareBtn from "./ShareBtn";
 import CommentBtn from "./CommentBtn";
-import { useTab } from "../../config/TabContext";
 import { useMediaQuery } from "react-responsive";
 import { Navigation, Pagination, Autoplay, Scrollbar } from "swiper/modules";
 import "swiper/css";
@@ -17,7 +16,7 @@ const TabLayout = ({ blog }) => {
   const navigate = useNavigate();
   const isMobile = useMediaQuery({ query: "(max-width:629px)" });
   // to the like button
-  const{author}=useTab()
+
   return (
     <>
       <Swiper
