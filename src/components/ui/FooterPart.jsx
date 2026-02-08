@@ -1,5 +1,5 @@
 import React from 'react'
-import icon from '../../assets/logo.png'
+import icon from '../../assets/Logo.png'
 import FooterCard from './FooterCard'
 const FooterPart = () => {
   return (
