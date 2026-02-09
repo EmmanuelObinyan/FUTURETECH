@@ -248,26 +248,47 @@ export const ProfileProvider = ({ children }) => {
     setLoading(true);
     try {
       const document = doc(db, "author", author.uid);
-      await setDoc(
-        document,
-        {
-          profilepic: null,
-          fullname: profile.fullname,
-          email: author.email,
-          nationality: profile.nationality,
-          status: profile.status,
-          phone_number: `${profile.phoneCode} ${profile.phone}`,
-          biography: profile.message,
-        },
-        { merge: true }
-      );
-      toast.success("profile updated successfully", {
-        style: {
-          textTransform: "capitalize",
-          backgroundColor: "#1e1e1e",
-          color: "green",
-        },
-      });
+         const getProfile=await getDoc(document)
+         if(!getProfile.exists()){
+          await setDoc(document, {
+            fullname: profile.fullname,
+            email: author.email,
+            nationality: profile.nationality,
+            status: profile.status,
+            phone_number: `${profile.phoneCode} ${profile.phone}`,
+            biography: profile.message,
+          }); 
+          toast.success("profile added successfully", {
+            style: {
+              textTransform: "capitalize",
+              backgroundColor: "#1e1e1e",
+              color: "green",
+            },
+          });
+    } else{
+      const updateData = {};
+
+    if (profile.fullname) updateData.fullname = profile.fullname;
+    if (profile.nationality) updateData.nationality = profile.nationality;
+    if (profile.status) updateData.status = profile.status;
+    if (profile.message) updateData.biography = profile.message;
+
+    if (profile.phone && profile.phoneCode) {
+      updateData.phone_number = `${profile.phoneCode} ${profile.phone}`;
+    }
+    // optional: always keep email in sync
+    updateData.email = author.email;
+
+    await updateDoc(document, updateData);
+
+    toast.success("profile updated successfully", {
+      style: {
+        textTransform: "capitalize",
+        backgroundColor: "#1e1e1e",
+        color: "green",
+      },
+    });
+    }
     } catch (error) {
       console.log(error);
     } finally {
