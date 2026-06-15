@@ -43,6 +43,11 @@ export const ProfileProvider = ({ children }) => {
   const handleChange = (e) => {
     setBlog({ ...blog, [e.target.name]: e.target.value });
   };
+
+
+
+  // to get the author picture
+const[authorPic,setAuthorPic]=useState("")
   // to submit the blog contents
   const BlogSubmit = async () => {
     let isValid = true;
@@ -111,7 +116,6 @@ export const ProfileProvider = ({ children }) => {
       await setDoc(response, {
         authorId: author.uid, // Add the author's ID for lookups
         author: data.exists() ? data.data().fullname : null,
-        photo:data.exists() ? data.data().profilepic : null,
         title: blog.title,
         category: blog.category,
         content: content,
@@ -119,6 +123,8 @@ export const ProfileProvider = ({ children }) => {
         comment: 0,
         createdAt: new Date().toLocaleDateString(),
       });
+        
+      
       toast.success("Blog post created successfully", {
         style: {
           textTransform: "capitalize",
@@ -140,7 +146,8 @@ export const ProfileProvider = ({ children }) => {
       setContent("");
     }, 3000);
   };
-  //
+// to handle author post
+
   // to like a blog post
   const handleLike = async (blogId) => {
     if (!author) {
@@ -523,6 +530,8 @@ export const ProfileProvider = ({ children }) => {
   return (
     <ProfileContext.Provider
       value={{
+        authorPic,
+        setAuthorPic,
         handleNewsChange,
         handleNewsSubmit,
         author,

@@ -12,10 +12,10 @@ import { getFirestore } from "firebase/firestore";
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey:import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: "streamvee-f90b5.firebaseapp.com",
-  projectId: "streamvee-f90b5",
-  storageBucket: "streamvee-f90b5.firebasestorage.app",
-  messagingSenderId: "630949799413",
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket:import.meta.VITE_FIREBASE_STORAGEBUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
   appId:import.meta.env.VITE_FIREBASE_APP_ID,
   measurementId: "G-1WL2BY17D6"
 };

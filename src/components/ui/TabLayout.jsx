@@ -1,7 +1,11 @@
 import React from "react";
+import {db} from '../../config/Firebase'
+import { doc, getDoc } from "firebase/firestore";
+import { useEffect, useState } from "react";
 import LikeBtn from "./LikeBtn";
 import ShareBtn from "./ShareBtn";
 import CommentBtn from "./CommentBtn";
+import { useProfile } from "../../config/ProfileContext";
 import { useMediaQuery } from "react-responsive";
 import { Navigation, Pagination, Autoplay, Scrollbar } from "swiper/modules";
 import "swiper/css";
@@ -16,6 +20,34 @@ const TabLayout = ({ blog }) => {
   const navigate = useNavigate();
   const isMobile = useMediaQuery({ query: "(max-width:629px)" });
   // to the like button
+const [authorProfile, setAuthorProfile] = useState(null);
+  const [loadingAuthor, setLoadingAuthor] = useState(true);
+
+  useEffect(() => {
+    // guard: blog or authorId not ready
+    if (!blog?.authorId) {      setLoadingAuthor(false)
+    }
+    const fetchAuthor = async () => {
+      try {
+        const ref = doc(db, "author", blog.authorId);
+        const snap = await getDoc(ref);
+
+        if (snap.exists()) {
+          setAuthorProfile(snap.data());
+        }
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoadingAuthor(false);
+      }
+    };
+
+    fetchAuthor();
+  }, [blog?.authorId]);
+
+  if (!blog) return null; 
+
+
 
   return (
     <>
@@ -37,17 +69,21 @@ const TabLayout = ({ blog }) => {
                   display: "flex",
                   alignItems: !isMobile ? "center" : "",
                   justifyContent: !isMobile ? "space-around" : "",
-                  flexDirection: isMobile ? "column" : "row",
+                  flexDirection: isMobile ? "column" : "row", 
                   marginBottom: 10,
                 }}
                 key={item.id}
               >
                 <ProfileCard
-                  author_image={item.photo || '/avatarpic.webp'}
+                  author_image={loadingAuthor
+            ? "/avatar.png"
+            : authorProfile?.profilepic || "/avatar.png" }
                   author={item.author}
                   categoryText={item.category}
                 />
+               
                 <section className="flex xs:h-[14rem] sm:h-[14rem] sm:w-[80%] md:w-[60%] lg:w-[45%] justify-between items-center sm:gap-2 xs:flex-col sm:flex-row capitalize">
+                 
                   <aside>
                     <p className="text-gray-400 font-light xs:text-ss sm:text-xs md:text-sm py-1.5 ">
                       {item.createdAt}
