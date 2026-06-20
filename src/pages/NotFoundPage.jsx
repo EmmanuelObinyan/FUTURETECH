@@ -12,7 +12,7 @@ const NotFoundPage = () => {
     <>
       <NavBar />
       <section className="xs:mt-26 sm:mt-32 lg:mt-37">
-        <div className="bg-[#141414] min-h-[70vh] flex flex-col items-center justify-center text-white font-sans px-6 py-16 relative overflow-hidden">
+        <div className="bg-[#141414] min-h-[70vh] flex flex-col items-center justify-center text-white px-6 py-16 relative overflow-hidden">
 
           {/* 404 number */}
           <div className="relative">
