@@ -16,6 +16,7 @@ import BlogPost from "./pages/BlogPost";
 import { Toaster } from "sonner";
 import Login from "./pages/Login";
 import News from "./pages/News";
+import NotFoundPage from "./pages/NotFoundPage";
 const App = () => {
   return (
     <div>
@@ -36,6 +37,7 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forgottenpassword" element={<ForgottenPassWord />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>
   );
