@@ -1,0 +1,409 @@
+import React, { useEffect, useState } from "react";
+import NavBar from "../components/layouts/NavBar";
+import { useObserver } from "../config/ObserverContext";
+import Aos from "aos";
+import "aos/dist/aos.css";
+import TextHeader from "../components/ui/TextHeader";
+import HeaderCard from "../components/ui/HeaderCard";
+import MainSectionComp from "../components/ui/MainSectionComp";
+import FooterPart from "../components/ui/FooterPart";
+import Footer from "../components/layouts/Footer";
+import { toast } from "sonner";
+import { db } from "../config/Firebase";
+import { collection, query, where, getDocs, addDoc, serverTimestamp } from "firebase/firestore";
+import { useAuth } from "../config/AuthContext";
+import LoaderComp from "../components/ui/LoaderComp";
+
+const CommunityForumPage = () => {
+  const { visible, observerRef } = useObserver();
+  const { author } = useAuth();
+  const [threads, setThreads] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [activeCategory, setActiveCategory] = useState("all");
+  const [newThread, setNewThread] = useState({
+    title: "",
+    description: "",
+    category: "general",
+  });
+  const [showNewThreadForm, setShowNewThreadForm] = useState(false);
+
+  const categories = [
+    { name: "All", value: "all" },
+    { name: "AI Trends", value: "ai-trends" },
+    { name: "Tech News", value: "tech-news" },
+    { name: "Career Tips", value: "career-tips" },
+    { name: "Project Showcase", value: "project-showcase" },
+    { name: "Beginner Questions", value: "beginner-questions" },
+    { name: "Advanced Discussions", value: "advanced-discussions" },
+  ];
+
+  useEffect(() => {
+    Aos.init();
+    fetchThreads();
+  }, [activeCategory]);
+
+  const fetchThreads = async () => {
+    setLoading(true);
+    try {
+      let q;
+      if (activeCategory === "all") {
+        q = query(collection(db, "forumThreads"));
+      } else {
+        q = query(
+          collection(db, "forumThreads"),
+          where("category", "==", activeCategory)
+        );
+      }
+      const querySnapshot = await getDocs(q);
+      const threadsData = [];
+      querySnapshot.forEach((doc) => {
+        threadsData.push({ id: doc.id, ...doc.data() });
+      });
+      setThreads(threadsData.sort((a, b) => b.createdAt - a.createdAt));
+    } catch (error) {
+      console.error("Error fetching threads:", error);
+      toast.error("Failed to load threads", {
+        style: {
+          backgroundColor: "#141414",
+          color: "red",
+        },
+        duration: 3000,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCreateThread = async () => {
+    if (!author) {
+      toast.error("Sign in first to create a thread", {
+        style: {
+          backgroundColor: "#141414",
+          color: "red",
+        },
+        duration: 3000,
+      });
+      return;
+    }
+
+    if (!newThread.title.trim() || !newThread.description.trim()) {
+      toast.error("Title and description are required", {
+        style: {
+          backgroundColor: "#141414",
+          color: "red",
+        },
+        duration: 3000,
+      });
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const threadData = {
+        title: newThread.title,
+        description: newThread.description,
+        category: newThread.category,
+        authorId: author.uid,
+        authorEmail: author.email,
+        createdAt: serverTimestamp(),
+        replies: 0,
+        views: 0,
+      };
+
+      await addDoc(collection(db, "forumThreads"), threadData);
+      
+      toast.success("Thread created successfully!", {
+        style: {
+          backgroundColor: "#141414",
+          color: "green",
+        },
+        duration: 3000,
+      });
+
+      setNewThread({ title: "", description: "", category: "general" });
+      setShowNewThreadForm(false);
+      await fetchThreads();
+    } catch (error) {
+      console.error("Error creating thread:", error);
+      toast.error("Failed to create thread", {
+        style: {
+          backgroundColor: "#141414",
+          color: "red",
+        },
+        duration: 3000,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getCategoryIcon = (category) => {
+    const icons = {
+      "ai-trends": "🚀",
+      "tech-news": "📰",
+      "career-tips": "💼",
+      "project-showcase": "🎯",
+      "beginner-questions": "❓",
+      "advanced-discussions": "🧠",
+      general: "💬",
+    };
+    return icons[category] || "💬";
+  };
+
+  if (loading && threads.length === 0) {
+    return <LoaderComp />;
+  }
+
+  return (
+    <>
+      <NavBar />
+      <section className="xs:mt-26 sm:mt-32 lg:mt-37">
+        {/* Header Section */}
+        <TextHeader
+          news_header="Join Our Community Forum"
+          margin={true}
+          news_text="Engage with industry professionals, share insights, discuss emerging technologies, and collaborate with peers from around the world. Our thriving community is dedicated to knowledge sharing and innovation."
+        />
+
+        {/* Stats Section */}
+        <div
+          className="grid grid-cols-2 sm:grid-cols-4 bg-[#141414] text-white font-inter place-items-center"
+          data-aos={visible ? "fade-left" : "fade-right"}
+          data-aos-duration="1500"
+          data-aos-delay="800"
+          data-aos-easing="ease-in-out"
+          ref={observerRef}
+        >
+          <HeaderCard headText="5000+" text="Active Members" />
+          <HeaderCard headText="12k+" text="Discussions" />
+          <HeaderCard headText="50k+" text="Total Posts" />
+          <HeaderCard headText="24/7" text="Community Support" />
+        </div>
+
+        {/* Main Content Section */}
+        <MainSectionComp
+          BtnGroup={true}
+          top_text="Start Your Discussion"
+          body_text="Browse Trending Topics & Join Conversations"
+        />
+
+        {/* Forum Container */}
+        <section className="bg-[#141414] text-white font-inter p-4 sm:p-6 min-h-screen">
+          {/* Create Thread Button */}
+          <div
+            className="mb-8 flex justify-end"
+            data-aos={visible ? "fade-down" : "fade-up"}
+            data-aos-duration="1000"
+            ref={observerRef}
+          >
+            <button
+              onClick={() => setShowNewThreadForm(!showNewThreadForm)}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105"
+            >
+              {showNewThreadForm ? "Close" : "+ Create New Thread"}
+            </button>
+          </div>
+
+          {/* Create Thread Form */}
+          {showNewThreadForm && (
+            <div
+              className="bg-[#1a1a1a] border border-blue-600 rounded-lg p-6 mb-8"
+              data-aos={visible ? "fade-up" : "fade-down"}
+              data-aos-duration="1000"
+              ref={observerRef}
+            >
+              <h3 className="text-2xl font-bold mb-4">Start a New Discussion</h3>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-semibold mb-2">
+                    Thread Title
+                  </label>
+                  <input
+                    type="text"
+                    value={newThread.title}
+                    onChange={(e) =>
+                      setNewThread({ ...newThread, title: e.target.value })
+                    }
+                    placeholder="What's your discussion about?"
+                    className="w-full bg-[#141414] border border-gray-600 rounded px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold mb-2">
+                    Category
+                  </label>
+                  <select
+                    value={newThread.category}
+                    onChange={(e) =>
+                      setNewThread({ ...newThread, category: e.target.value })
+                    }
+                    className="w-full bg-[#141414] border border-gray-600 rounded px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
+                  >
+                    {categories.map((cat) => (
+                      <option key={cat.value} value={cat.value}>
+                        {cat.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold mb-2">
+                    Description
+                  </label>
+                  <textarea
+                    value={newThread.description}
+                    onChange={(e) =>
+                      setNewThread({
+                        ...newThread,
+                        description: e.target.value,
+                      })
+                    }
+                    placeholder="Describe your discussion in detail..."
+                    rows="6"
+                    className="w-full bg-[#141414] border border-gray-600 rounded px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors resize-none"
+                  />
+                </div>
+
+                <button
+                  onClick={handleCreateThread}
+                  disabled={loading}
+                  className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300"
+                >
+                  {loading ? "Creating..." : "Post Thread"}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Category Filter */}
+          <div
+            className="flex flex-wrap gap-2 mb-8"
+            data-aos={visible ? "fade-right" : "fade-left"}
+            data-aos-duration="1000"
+            ref={observerRef}
+          >
+            {categories.map((cat) => (
+              <button
+                key={cat.value}
+                onClick={() => setActiveCategory(cat.value)}
+                className={`px-4 py-2 rounded-full font-semibold transition-all duration-300 ${
+                  activeCategory === cat.value
+                    ? "bg-blue-600 text-white"
+                    : "bg-[#1a1a1a] text-gray-300 hover:bg-[#252525]"
+                }`}
+              >
+                {cat.name}
+              </button>
+            ))}
+          </div>
+
+          {/* Threads List */}
+          <div className="space-y-4">
+            {threads.length === 0 ? (
+              <div className="text-center py-16">
+                <p className="text-xl text-gray-400">
+                  No discussions yet. Be the first to start one!
+                </p>
+              </div>
+            ) : (
+              threads.map((thread, index) => (
+                <div
+                  key={thread.id}
+                  className="bg-[#1a1a1a] border border-gray-700 rounded-lg p-5 hover:border-blue-600 transition-all duration-300 cursor-pointer transform hover:scale-101"
+                  data-aos={visible ? "fade-up" : "fade-down"}
+                  data-aos-duration="1000"
+                  data-aos-delay={index * 100}
+                  ref={observerRef}
+                >
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-2">
+                        <span className="text-2xl">
+                          {getCategoryIcon(thread.category)}
+                        </span>
+                        <span className="text-xs bg-blue-600 text-white px-3 py-1 rounded-full">
+                          {thread.category.replace("-", " ").toUpperCase()}
+                        </span>
+                      </div>
+
+                      <h3 className="text-xl font-bold mb-2 hover:text-blue-400 transition-colors">
+                        {thread.title}
+                      </h3>
+
+                      <p className="text-gray-400 mb-4 line-clamp-2">
+                        {thread.description}
+                      </p>
+
+                      <div className="flex flex-wrap gap-4 text-sm text-gray-500">
+                        <span>By {thread.authorEmail}</span>
+                        <span>
+                          {thread.createdAt
+                            ? new Date(
+                                thread.createdAt.seconds * 1000
+                              ).toLocaleDateString()
+                            : "Just now"}
+                        </span>
+                        <span>👁️ {thread.views || 0} views</span>
+                        <span>💬 {thread.replies || 0} replies</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </section>
+
+        {/* Community Guidelines */}
+        <section className="bg-[#1a1a1a] border-t border-gray-700 p-6 sm:p-10 text-white">
+          <h2 className="text-2xl font-bold mb-6">Community Guidelines</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              {
+                icon: "✌️",
+                title: "Be Respectful",
+                text: "Treat all members with courtesy and respect",
+              },
+              {
+                icon: "🎯",
+                title: "Stay On Topic",
+                text: "Keep discussions relevant to the thread",
+              },
+              {
+                icon: "🔍",
+                title: "Search First",
+                text: "Check for existing threads before posting",
+              },
+              {
+                icon: "🚫",
+                title: "No Spam",
+                text: "Avoid promotional content and spam",
+              },
+            ].map((guideline, index) => (
+              <div
+                key={index}
+                className="text-center"
+                data-aos={visible ? "fade-up" : "fade-down"}
+                data-aos-duration="1000"
+                data-aos-delay={index * 200}
+                ref={observerRef}
+              >
+                <div className="text-4xl mb-3">{guideline.icon}</div>
+                <h3 className="font-bold mb-2">{guideline.title}</h3>
+                <p className="text-gray-400 text-sm">{guideline.text}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <FooterPart />
+        <Footer />
+      </section>
+    </>
+  );
+};
+
+export default CommunityForumPage;
