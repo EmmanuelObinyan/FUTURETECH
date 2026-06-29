@@ -1,9 +1,9 @@
 import React from 'react'
-
+import NotFoundPage from './NotFoundPage'
 const SettingsPage = () => {
   return (
     <div className="text-white text-lg flex items-center justify-center">
-      page not ready yet
+       <NotFoundPage/>
     </div>
   )
 }

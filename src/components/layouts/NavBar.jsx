@@ -101,16 +101,22 @@ const NavBar = () => {
                 settings
               </li>
             </Link>
+             {/* contacts */}
+            <Link to={"/contact"}>
+              <li className="p-2 rounded-md duration-200 transition-all ease active:bg-[#141414]">
+                contact us
+              </li>
+            </Link>
           </ul>
         ) : (
           ""
         )}
-        {/* for the contact button */}
+        {/* for the sign in button */}
         {!isMobile ? (
           <AppButton
-            BtnText="contact us"
+            BtnText={author ? "sign out" : "sign in"}
             showColor={true}
-            BtnFunction={() => navigate("/contact")}
+            BtnFunction={() => { author ?  handleLogout : navigate("/login")}}
           />
         ) : (
           ""
